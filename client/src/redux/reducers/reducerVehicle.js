@@ -12,6 +12,7 @@ const ReducerVehicle = (state = initialState, actions) => {
       };
 
     case "POST_VEHICLE":
+      console.log("POST VEHICLE actions.payload: ", actions.payload);
       return {
         vehicles: [...state.vehicles, actions.payload],
       };
@@ -27,6 +28,7 @@ const ReducerVehicle = (state = initialState, actions) => {
           p.image = actions.payload.image;
           p.active = actions.payload.active;
           p.categories = actions.payload.categories;
+          p.category = actions.payload.category;
         }
         vehiclesLoaded.push(p);
       });

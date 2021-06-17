@@ -15,6 +15,8 @@ const CrudVehicles = () => {
   const dispatch = useDispatch();
   const vehicles = useSelector((state) => state.reducerVehicle.vehicles);
 
+  console.log("vehicles: ", vehicles);
+
   useEffect(() => {
     dispatch(getVehicle());
   }, [dispatch]);
@@ -38,7 +40,10 @@ const CrudVehicles = () => {
     images: "",
     active: false,
     categories: "",
+    categoryId: "",
   });
+
+  console.log("vehicleSeleccionado: ", vehicleSeleccionado);
 
   const seleccionarVehicle = (elemento, caso) => {
     setVehicleSeleccionado(elemento);
@@ -59,8 +64,8 @@ const CrudVehicles = () => {
   };
 
   const editar = () => {
-    arrayCategoria.push(vehicleSeleccionado.categories);
-    dispatch(putVehicle(vehicleSeleccionado, arrayCategoria));
+    // arrayCategoria.push(vehicleSeleccionado.categories);
+    dispatch(putVehicle(vehicleSeleccionado));
     setModalEditar(false);
   };
 
@@ -75,8 +80,8 @@ const CrudVehicles = () => {
   };
 
   const insertar = () => {
-    arrayCategoria.push(vehicleSeleccionado.categories);
-    dispatch(postVehicle(vehicleSeleccionado, arrayCategoria));
+    // arrayCategoria.push(vehicleSeleccionado.categories);
+    dispatch(postVehicle(vehicleSeleccionado));
     setModalInsertar(false);
   };
 
@@ -117,11 +122,8 @@ const CrudVehicles = () => {
                   height="auto"
                 />
               </td>
-
               <td>
-                {elemento.categories.map((category) => (
-                  <span>{category.name}</span>
-                ))}
+                <span>{elemento.category ? elemento.category.name : ""}</span>
               </td>
               <td>{elemento.active ? "Activo" : "Inactivo"}</td>
               <td>
@@ -203,10 +205,14 @@ const CrudVehicles = () => {
             <br />
 
             <label>Categoria</label>
-            <select name="categories" onChange={handleChange}>
+            <select
+              name="categoryId"
+              onChange={handleChange}
+              value={vehicleSeleccionado && vehicleSeleccionado.categoryId}
+            >
               <option>Selecciona una categoría...</option>
               {categories.map((cat) => (
-                <option type="checkbox" name="categories" value={cat.id}>
+                <option type="checkbox" name="categoryId" value={cat.id}>
                   {cat.name}
                 </option>
               ))}
@@ -310,29 +316,16 @@ const CrudVehicles = () => {
 
             <label>Categoria</label>
             <select
-              name="categories"
-              value={vehicleSeleccionado ? vehicleSeleccionado.categories : ""}
+              name="categoryId"
+              value={vehicleSeleccionado ? vehicleSeleccionado.categoryId : ""}
               onChange={handleChange}
             >
               <option>Selecciona una categoría...</option>
               {categories.map((cat) => (
-                <option type="checkbox" name="categories" value={cat.id}>
+                <option type="checkbox" name="categoryId" value={cat.id}>
                   {cat.name}
                 </option>
               ))}
-            </select>
-
-            <br />
-
-            <label>Activo</label>
-            <select
-              name="active"
-              value={vehicleSeleccionado && vehicleSeleccionado.active}
-              onChange={handleChange}
-            >
-              <option value="">Seleccione disponibilidad...</option>
-              <option value={new Boolean(1)}>Activo</option>
-              <option value={new Boolean(0)}>Inactivo</option>
             </select>
 
             <br />

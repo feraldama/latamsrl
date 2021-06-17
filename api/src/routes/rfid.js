@@ -1,7 +1,5 @@
 const server = require("express").Router();
-const { Op } = require("sequelize");
-// const { Vehicle, Category, Review, User } = require("../db.js");
-const { Vehicle, Category } = require("../db.js");
+const { Vehicle, Rfid } = require("../db.js");
 
 // Obtener todos los vehuculos
 server.get("/", (_req, res, next) => {
@@ -38,17 +36,15 @@ server.get("/actives", (_req, res, next) => {
 
 // Modificar un vehiculo
 server.put("/:id", (req, res, next) => {
-  // console.log("req.body BACK: ", req.body);
   Vehicle.findByPk(req.params.id, { include: [Category] }) // Busco el vehiculo por clave primaria (id)
     .then((currentVehicleData) => {
-      // console.log("currentVehicleData: ", currentVehicleData);
       if (!currentVehicleData)
         return res.status(400).send("El registro no existe");
       let categories = [];
-      if (req.body.categoryId) {
-        // req.body.categories.forEach((category) => {
-        categories.push(parseInt(req.body.categoryId, 10));
-        // });
+      if (req.body.categories) {
+        req.body.categories.forEach((category) => {
+          categories.push(parseInt(category, 10));
+        });
       }
       const {
         plate = currentVehicleData.plate,
@@ -57,16 +53,16 @@ server.put("/:id", (req, res, next) => {
         image = currentVehicleData.image,
         active = currentVehicleData.active,
       } = req.body;
-      // currentVehicleData.categories.forEach((category) => {
-      // currentVehicleData
-      //   .removeCategory(category.dataValues.id)
-      //   .catch((err) => console.error(err));
-      // });
-      // categories.forEach((category) => {
-      currentVehicleData
-        .setCategory(req.body.categoryId)
-        .catch((err) => console.error(err));
-      // });
+      currentVehicleData.categories.forEach((category) => {
+        currentVehicleData
+          .removeCategory(category.dataValues.id)
+          .catch((err) => console.error(err));
+      });
+      categories.forEach((category) => {
+        currentVehicleData
+          .addCategory(category)
+          .catch((err) => console.error(err));
+      });
       Vehicle.update(
         { plate, name, description, image, active },
         { where: { id: req.params.id } }
@@ -121,18 +117,14 @@ server.post("/", (req, res, next) => {
     image,
   })
     .then((vehicle) => {
-      // vehicle.setCategory(categories).catch((err) => console.error(err));
-      // res.status(201).send(vehicle.dataValues);
-      // console.log("vehicle: ", vehicle);
-      vehicle.setCategory(categories).then((newData) => {
-        console.log("newData: ", newData);
-        Vehicle.findByPk(vehicle.dataValues.id, { include: [Category] }).then(
-          (vehicleCategory) => {
-            console.log("vehicleCategory INCLUDE CAT: ", vehicleCategory);
-            res.status(201).send(vehicleCategory);
-          }
-        );
-      });
+      categories.forEach((id) =>
+        vehicle.addCategory(id).catch((err) => console.error(err))
+      );
+      Vehicle.findByPk(vehicle.id, { include: [Category] }).then(
+        (vehicleCategory) => {
+          res.status(201).send(vehicleCategory);
+        }
+      );
     })
     .catch((error) => {
       console.error(error);

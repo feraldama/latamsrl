@@ -3,7 +3,7 @@ const { Router } = require("express");
 // const authRouter = require('./auth.js');
 const vehicleRouter = require("./vehicle.js");
 const categoryRouter = require("./category.js");
-// const userRouter = require('./user.js');
+const rfidRouter = require("./rfid");
 // const cartRouter = require('./cart.js');
 // const orderRouter = require('./order.js');
 
@@ -15,7 +15,7 @@ const router = Router();
 // router.use("/auth", authRouter);
 router.use("/vehicles", vehicleRouter);
 router.use("/categories", categoryRouter);
-// router.use("/users", userRouter);
+router.use("/rfids", rfidRouter);
 // router.use("/cart", cartRouter);
 // router.use("/orders", orderRouter);
 

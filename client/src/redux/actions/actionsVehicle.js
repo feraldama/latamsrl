@@ -11,49 +11,42 @@ export const getVehicle = () => (dispatch) => {
   });
 };
 
-export const postVehicle =
-  (vehicleSeleccionado, arrayCategoria) => (dispatch) => {
-    axios
-      .post(`${url}/vehicles`, {
-        name: vehicleSeleccionado.name,
-        description: vehicleSeleccionado.description,
-        plate: vehicleSeleccionado.plate,
-        image: vehicleSeleccionado.image,
-        active: vehicleSeleccionado.active,
-        categories: arrayCategoria,
-      })
-      .then((data) => {
-        dispatch({
-          type: "POST_VEHICLE",
-          payload: data.data,
-        });
+export const postVehicle = (vehicleSeleccionado) => (dispatch) => {
+  axios
+    .post(`${url}/vehicles`, {
+      name: vehicleSeleccionado.name,
+      description: vehicleSeleccionado.description,
+      plate: vehicleSeleccionado.plate,
+      image: vehicleSeleccionado.image,
+      active: vehicleSeleccionado.active,
+      categories: vehicleSeleccionado.categoryId,
+    })
+    .then((data) => {
+      dispatch({
+        type: "POST_VEHICLE",
+        payload: data.data,
       });
-  };
+    });
+};
 
-export const putVehicle =
-  (vehicleSeleccionado, arrayCategoria) => (dispatch) => {
-    // console.log(
-    //   "vehicleSeleccionado: ",
-    //   vehicleSeleccionado,
-    //   " - arrayCategoria: ",
-    //   arrayCategoria
-    // );
-    axios
-      .put(`${url}/vehicles/${vehicleSeleccionado.id}`, {
-        name: vehicleSeleccionado.name,
-        description: vehicleSeleccionado.description,
-        plate: vehicleSeleccionado.plate,
-        image: vehicleSeleccionado.image,
-        active: vehicleSeleccionado.active,
-        categories: arrayCategoria,
-      })
-      .then((data) => {
-        dispatch({
-          type: "PUT_VEHICLE",
-          payload: data.data,
-        });
+export const putVehicle = (vehicleSeleccionado) => (dispatch) => {
+  // console.log("ACTIONS vehicleSeleccionado: ", vehicleSeleccionado);
+  axios
+    .put(`${url}/vehicles/${vehicleSeleccionado.id}`, {
+      name: vehicleSeleccionado.name,
+      description: vehicleSeleccionado.description,
+      plate: vehicleSeleccionado.plate,
+      image: vehicleSeleccionado.image,
+      active: vehicleSeleccionado.active,
+      categoryId: vehicleSeleccionado.categoryId,
+    })
+    .then((data) => {
+      dispatch({
+        type: "PUT_VEHICLE",
+        payload: data.data,
       });
-  };
+    });
+};
 
 export const deleteVehicle = (id) => (dispatch) => {
   axios.delete(`${url}/vehicles/${id}`).then((data) => {

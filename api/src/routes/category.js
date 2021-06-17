@@ -3,6 +3,7 @@ const { Category } = require("../db.js");
 const bodyparser = require("body-parser");
 
 server.use(bodyparser.json({ extended: true }));
+
 server.get("/", (req, res, next) => {
   Category.findAll()
     .then((categories) => {
@@ -10,6 +11,7 @@ server.get("/", (req, res, next) => {
     })
     .catch(next);
 });
+
 server.post("/", (req, res, next) => {
   Category.create({ name: req.body.name, description: req.body.description })
     .then((category) => {
@@ -24,6 +26,7 @@ server.post("/", (req, res, next) => {
 //     })
 //     .catch(next);
 // });
+
 server.put("/:id", (req, res, next) => {
   let cat;
   Category.findByPk(req.params.id)
