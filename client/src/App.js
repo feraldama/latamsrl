@@ -6,6 +6,7 @@ import Catalogo from "./componentes/Catalogo.jsx";
 import Vehicle from "./componentes/Vehicle.jsx";
 import FilterVehicles from "./componentes/FilterVehicles";
 import Vehicles from "./componentes/crudVehicles.jsx";
+import Rfids from "./componentes/crudRfid.jsx";
 import Searched from "./componentes/SearchedVehicles.jsx";
 import NavAdmin from "./componentes/NavAdmin.jsx";
 import Categories from "./componentes/crudCategory";
@@ -26,6 +27,7 @@ function App() {
       <Route path="/vehicles/search/:id" component={Searched} />
       <Route exact path="/admin/categories" component={Categories} />
       <Route exact path="/admin/vehicles" component={Vehicles} />
+      <Route exact path="/admin/rfids" component={Rfids} />
     </div>
   );
 }

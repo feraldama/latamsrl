@@ -4,7 +4,7 @@ import "./Catalogo.css";
 import { useParams } from "react-router-dom";
 import VehicleCard from "./VehicleCard.jsx";
 
-export default () => {
+const FilterVehicles = () => {
   let { id } = useParams();
   var arrayProds = [];
   useEffect(() => {
@@ -29,3 +29,5 @@ export default () => {
     </div>
   );
 };
+
+export default FilterVehicles;

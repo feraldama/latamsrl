@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./Vehicle.css";
 
-export default () => {
+const Vehicle = () => {
   let { id } = useParams();
   var url = "http://localhost:3001";
   useEffect(() => {
@@ -26,3 +26,4 @@ export default () => {
     </div>
   );
 };
+export default Vehicle;

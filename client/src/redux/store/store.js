@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import reducerVehicle from "../reducers/reducerVehicle";
 import reducerCategory from "../reducers/reducerCategory";
+import reducerRfid from "../reducers/reducerRfid";
 // import reducerUser from '../reducers/reducerUser';
 // import reducerOrder from '../reducers/reducerOrder';
 // import reducerCart from '../reducers/reducerCart';
@@ -14,6 +15,7 @@ const store = createStore(
     // reducerUser,
     reducerCategory,
     reducerVehicle,
+    reducerRfid,
     // reducerOrder,
     // reducerCart,
     // reducerReview,

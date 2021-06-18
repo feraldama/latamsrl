@@ -3,7 +3,7 @@ import axios from "axios";
 import "./Catalogo.css";
 import VehicleCard from "./VehicleCard.jsx";
 
-export default () => {
+const Catalogo = () => {
   useEffect(() => {
     axios
       .get("http://localhost:3001/vehicles/actives")
@@ -25,3 +25,4 @@ export default () => {
     </div>
   );
 };
+export default Catalogo;

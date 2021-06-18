@@ -4,6 +4,10 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define("rfid", {
+    rfidNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     brand: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -37,6 +41,10 @@ module.exports = (sequelize) => {
     recapNumber: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     },
   });
 };

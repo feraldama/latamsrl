@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-export default function FilterCategories() {
+const FilterCategories = () => {
   let history = useHistory();
   var route;
   useEffect(() => {
@@ -30,4 +30,5 @@ export default function FilterCategories() {
       </select>
     </div>
   );
-}
+};
+export default FilterCategories;

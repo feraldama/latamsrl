@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-export default () => {
+const SearchBar = () => {
   let history = useHistory();
   var route;
   const handleChange = (e) => {
@@ -29,3 +29,5 @@ export default () => {
     </form>
   );
 };
+
+export default SearchBar;

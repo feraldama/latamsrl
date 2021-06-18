@@ -2,7 +2,7 @@ const initialState = {
   categories: [],
 };
 
-export default (state = initialState, actions) => {
+const ReducerCategory = (state = initialState, actions) => {
   switch (actions.type) {
     case "POST_CATEGORY":
       return {
@@ -47,3 +47,4 @@ export default (state = initialState, actions) => {
       return state;
   }
 };
+export default ReducerCategory;

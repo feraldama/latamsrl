@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./VehicleCard.css";
 
-export default ({ id, name, plate, image }) => {
+const VehicleCard = ({ id, name, plate, image }) => {
   return (
     <div className="container-card">
       <div className="container-card-img">
@@ -17,3 +17,4 @@ export default ({ id, name, plate, image }) => {
     </div>
   );
 };
+export default VehicleCard;

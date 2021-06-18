@@ -4,7 +4,7 @@ import "./Catalogo.css";
 import VehicleCard from "./VehicleCard";
 import { useParams } from "react-router-dom";
 
-export default () => {
+const SearchedVehicles = () => {
   let { id } = useParams();
   useEffect(() => {
     axios
@@ -33,3 +33,4 @@ export default () => {
     );
   }
 };
+export default SearchedVehicles;

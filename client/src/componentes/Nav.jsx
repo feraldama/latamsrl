@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar.jsx";
 import "./Nav.css";
 import { Link } from "react-router-dom";
 
-export default () => {
+const Nav = () => {
   return (
     <nav className="nav-container">
       <div className="img-container">
@@ -31,3 +31,5 @@ export default () => {
     </nav>
   );
 };
+
+export default Nav;

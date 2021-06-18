@@ -10,8 +10,6 @@ import {
 import { getCategory } from "../redux/actions/actionsCategory";
 
 const CrudVehicles = () => {
-  let arrayCategoria = [];
-
   const dispatch = useDispatch();
   const vehicles = useSelector((state) => state.reducerVehicle.vehicles);
 
@@ -64,7 +62,6 @@ const CrudVehicles = () => {
   };
 
   const editar = () => {
-    // arrayCategoria.push(vehicleSeleccionado.categories);
     dispatch(putVehicle(vehicleSeleccionado));
     setModalEditar(false);
   };
@@ -80,7 +77,6 @@ const CrudVehicles = () => {
   };
 
   const insertar = () => {
-    // arrayCategoria.push(vehicleSeleccionado.categories);
     dispatch(postVehicle(vehicleSeleccionado));
     setModalInsertar(false);
   };

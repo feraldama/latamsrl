@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar.jsx";
 import "./Nav.css";
 import { Link } from "react-router-dom";
 
-function Nav({ onSearch }) {
+const NavAdmin = () => {
   return (
     <nav className="nav-container">
       <div className="img-container">
@@ -19,15 +19,17 @@ function Nav({ onSearch }) {
           </Link>
         </div>{" "}
       </div>
-
-      <Link to="/admin/vehicles">
-        <button class="button-cart2">Lista de Vehiculos</button>
-      </Link>
       <Link to="/admin/categories">
         <button class="button-cart2">Lista de Categorias</button>
       </Link>
+      <Link to="/admin/vehicles">
+        <button class="button-cart2">Lista de Vehiculos</button>
+      </Link>
+      <Link to="/admin/rfids">
+        <button class="button-cart2">Lista de RFIDs</button>
+      </Link>
     </nav>
   );
-}
+};
 
-export default Nav;
+export default NavAdmin;

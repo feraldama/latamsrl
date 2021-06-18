@@ -1,19 +1,20 @@
 const server = require("express").Router();
+const { Op } = require("sequelize");
 const { Vehicle, Rfid } = require("../db.js");
 
-// Obtener todos los vehuculos
+// Obtener todos los rfid
 server.get("/", (_req, res, next) => {
-  Vehicle.findAll({ include: [Category] }) //Busco todos los vehiculos
-    .then((vehicles) => {
-      res.send(vehicles);
+  Rfid.findAll({ include: [Vehicle] }) //Busco todos los rfids
+    .then((rfids) => {
+      res.send(rfids);
     })
     .catch(next);
 });
 
 server.get("/actives", (_req, res, next) => {
-  Vehicle.findAll({ where: { active: true }, include: [Category] }) //Busco solo los vehiculos marcados como activos
-    .then((vehicles) => {
-      res.send(vehicles);
+  Rfid.findAll({ where: { active: true }, include: [Vehicle] }) //Busco solo los rfids marcados como activos
+    .then((rfids) => {
+      res.send(rfids);
     })
     .catch(next);
 });
@@ -34,42 +35,61 @@ server.get("/actives", (_req, res, next) => {
 //     .catch(next);
 // });
 
-// Modificar un vehiculo
+// Modificar un rfid
 server.put("/:id", (req, res, next) => {
-  Vehicle.findByPk(req.params.id, { include: [Category] }) // Busco el vehiculo por clave primaria (id)
-    .then((currentVehicleData) => {
-      if (!currentVehicleData)
+  console.log("req.body BACK: ", req.body);
+  Rfid.findByPk(req.params.id, { include: [Vehicle] }) // Busco el vehiculo por clave primaria (id)
+    .then((currentRfidData) => {
+      console.log("currentVehicleData: ", currentRfidData);
+      if (!currentRfidData)
         return res.status(400).send("El registro no existe");
       let categories = [];
-      if (req.body.categories) {
-        req.body.categories.forEach((category) => {
-          categories.push(parseInt(category, 10));
-        });
+      if (req.body.vehicleId) {
+        // req.body.categories.forEach((category) => {
+        categories.push(parseInt(req.body.vehicleId, 10));
+        // });
       }
       const {
-        plate = currentVehicleData.plate,
-        name = currentVehicleData.name,
-        description = currentVehicleData.description,
-        image = currentVehicleData.image,
-        active = currentVehicleData.active,
+        rfidNumber = currentRfidData.rfidNumber,
+        brand = currentRfidData.brand,
+        invoiceNumber = currentRfidData.invoiceNumber,
+        invoiceDate = currentRfidData.invoiceDate,
+        company = currentRfidData.company,
+        measure = currentRfidData.measure,
+        type = currentRfidData.type,
+        location = currentRfidData.location,
+        recapNumber = currentRfidData.recapNumber,
+        vehicleId = currentRfidData.vehicleId,
+        active = currentRfidData.plate,
       } = req.body;
-      currentVehicleData.categories.forEach((category) => {
-        currentVehicleData
-          .removeCategory(category.dataValues.id)
-          .catch((err) => console.error(err));
-      });
-      categories.forEach((category) => {
-        currentVehicleData
-          .addCategory(category)
-          .catch((err) => console.error(err));
-      });
-      Vehicle.update(
-        { plate, name, description, image, active },
+      // currentVehicleData.categories.forEach((category) => {
+      // currentVehicleData
+      //   .removeCategory(category.dataValues.id)
+      //   .catch((err) => console.error(err));
+      // });
+      // categories.forEach((category) => {
+      currentRfidData
+        .setVehicle(req.body.vehicleId)
+        .catch((err) => console.error(err));
+      // });
+      Rfid.update(
+        {
+          rfidNumber,
+          brand,
+          invoiceNumber,
+          invoiceDate,
+          company,
+          measure,
+          type,
+          location,
+          recapNumber,
+          vehicleId,
+          active,
+        },
         { where: { id: req.params.id } }
       )
         .then(
-          () =>
-            (prod = Vehicle.findByPk(req.params.id, { include: [Category] }))
+          () => (prod = Rfid.findByPk(req.params.id, { include: [Vehicle] }))
         )
         .then((vehi) => res.status(200).send(vehi))
         .catch((err) => res.status(400).send(err));
@@ -77,54 +97,39 @@ server.put("/:id", (req, res, next) => {
     .catch(next);
 });
 
-// Editar Review de un vehiculo
-// server.put("/:id/review/:idRevie", (req, res, next) => {
-//   const { review, userId, calification } = req.body;
-//   productId = req.params.id;
-//   id = req.params.idRevie;
-//   Product.findByPk(req.params.id)
-//     .then((product) => {
-//       if (!product) res.status(400).send("Producto invalido");
-//       else {
-//         product
-//           .getReviews({
-//             where: { productId },
-//             where: { userId },
-//             where: { id },
-//           })
-//           .then(([item]) => {
-//             if (!item) res.status(400).send("Producto invalido");
-//             else {
-//               item.review = review;
-//               item.calification = calification;
-//               item.save();
-//               res.status(200).send(item);
-//             }
-//           })
-//           .catch(next);
-//       }
-//     })
-//     .catch(next);
-// });
-
 // Crear/Agregar un vehiculo
 server.post("/", (req, res, next) => {
-  const { plate, name, description, image, categories } = req.body;
-  Vehicle.create({
-    plate,
-    name,
-    description,
-    image,
+  const {
+    rfidNumber,
+    brand,
+    invoiceNumber,
+    invoiceDate,
+    company,
+    measure,
+    type,
+    location,
+    recapNumber,
+    vehicleId,
+  } = req.body;
+  Rfid.create({
+    rfidNumber,
+    brand,
+    invoiceNumber,
+    invoiceDate,
+    company,
+    measure,
+    type,
+    location,
+    recapNumber,
   })
-    .then((vehicle) => {
-      categories.forEach((id) =>
-        vehicle.addCategory(id).catch((err) => console.error(err))
-      );
-      Vehicle.findByPk(vehicle.id, { include: [Category] }).then(
-        (vehicleCategory) => {
-          res.status(201).send(vehicleCategory);
-        }
-      );
+    .then((rfid) => {
+      rfid.setVehicle(vehicleId).then((newData) => {
+        Rfid.findByPk(rfid.dataValues.id, { include: [Vehicle] }).then(
+          (rfidVehicle) => {
+            res.status(201).send(rfidVehicle);
+          }
+        );
+      });
     })
     .catch((error) => {
       console.error(error);
@@ -132,57 +137,28 @@ server.post("/", (req, res, next) => {
     });
 });
 
-// Crear/Agregar review
-// server.post("/:id/review", (req, res, next) => {
-//   var idReview;
-//   const { review, calification, userId } = req.body;
-//   Product.findByPk(req.params.id)
-//     .then((product) => {
-//       if (!product) res.status(400).send("Producto invalido");
-//       else {
-//         product
-//           .createReview({
-//             review,
-//             calification,
-//           })
-//           .then((newReviewItem) => {
-//             newReviewItem.setProduct(req.params.id).then(() => {
-//               newReviewItem.setUser(userId).then(() => {
-//                 idReview = newReviewItem.dataValues.id;
-//                 Review.findByPk(idReview, {
-//                   include: [Product, User],
-//                 }).then((newC) => {
-//                   res.status(201).send(newC);
-//                 });
-//               });
-//             });
-//           })
-//           .catch(next);
-//       }
-//     })
-//     .catch(next);
-// });
-
-// Obtener los vehiculos ELIMINADOS
+// Obtener los rfid ELIMINADOS
 server.get("/deleted", (req, res, next) => {
-  Vehicle.findAll({ where: { active: false }, include: [Category] })
-    .then((vehicles) => {
-      res.send(vehicles);
+  Rfid.findAll({ where: { active: false }, include: [Vehicle] })
+    .then((rfids) => {
+      res.send(rfids);
     })
     .catch(next);
 });
+
 // Obtener los vehiculos pertenecientes a X categoria
-server.get("/category/:id", (req, res, next) => {
-  Category.findByPk(req.params.id, { include: [Vehicle] }).then((data) =>
+server.get("/vehicle/:id", (req, res, next) => {
+  Vehicle.findByPk(req.params.id, { include: [Rfid] }).then((data) =>
     res.status(200).send(data)
   );
 });
-// Obtener un vehiculo en base a ID
+
+// Obtener un rfid en base a ID
 server.get("/:id", (req, res, next) => {
-  Vehicle.findByPk(req.params.id, { include: [Category] })
-    .then((vehicle) => {
-      if (!vehicle) res.status(400).send("No existe el vehiculo");
-      else res.status(200).send(vehicle);
+  Rfid.findByPk(req.params.id, { include: [Vehicle] })
+    .then((rfid) => {
+      if (!rfid) res.status(400).send("No existe el rfid");
+      else res.status(200).send(rfid);
     })
     .catch(next);
 });
@@ -190,46 +166,36 @@ server.get("/:id", (req, res, next) => {
 // Obtener vehiculo segun keyword de busqueda
 server.get("/search/:id", (req, res, next) => {
   const query = req.params.id;
-  Vehicle.findAll({
+  Rfid.findAll({
     where: {
       [Op.or]: {
-        plate: {
+        rfidNumber: {
           [Op.like]: `%${query}%`,
         },
-        name: {
+        brand: {
           [Op.like]: `%${query}%`,
         },
-        description: {
+        type: {
           [Op.like]: `%${query}%`,
         },
       },
     },
-    include: [Category],
+    include: [Vehicle],
   })
     .then((data) => res.status(200).send(data))
     .catch(next);
 });
 
-// Eliminar un vehiculo
+// Eliminar un rfid
 server.delete("/:id", (req, res, next) => {
-  Vehicle.findByPk(req.params.id)
-    .then((vehicle) => {
-      if (!vehicle) return res.status(400).send("El registro no existe");
-      Vehicle.update({ active: false }, { where: { id: req.params.id } })
-        .then(() => (vehi = Vehicle.findByPk(req.params.id)))
-        .then((vehi) => res.status(200).send(vehi))
+  Rfid.findByPk(req.params.id)
+    .then((rfid) => {
+      if (!rfid) return res.status(400).send("El registro no existe");
+      Rfid.update({ active: false }, { where: { id: req.params.id } })
+        .then(() => (rf = Rfid.findByPk(req.params.id)))
+        .then((rf) => res.status(200).send(rf))
         .catch((err) => res.status(400).send(err));
     })
     .catch(next);
 });
 module.exports = server;
-
-// // Eliminar Review
-// server.delete("/:id/review/:idReview", (req, res, next) => {
-//   const { userId } = req.body;
-//   productId = req.params.id;
-//   id = req.params.idReview;
-//   Review.destroy({ where: { productId }, where: { userId }, where: { id } })
-//     .then(() => res.status(200).send(id))
-//     .catch(next);
-// });
