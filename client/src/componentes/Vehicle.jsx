@@ -9,8 +9,12 @@ const Vehicle = () => {
   useEffect(() => {
     axios.get(`${url}/vehicles/${id}`).then((data) => setData(data.data));
   }, []);
+  useEffect(() => {
+    axios.get(`${url}/rfids/vehicle/${id}`).then((rfid) => setRfid(rfid.data));
+  }, []);
   const [data, setData] = useState([]);
-
+  const [rfid, setRfid] = useState([]);
+  console.log("rfid: ", rfid);
   return (
     <div className="container-prod">
       <div className="container-product">
@@ -20,7 +24,28 @@ const Vehicle = () => {
         <div className="container-data">
           <h1>{data.name}</h1>
           <h2>Chapa: {data.plate}</h2>
-          <p>{data.description}.</p>
+          <h3>{data.description}.</h3>
+
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>RFID</th>
+                <th>Tipo</th>
+                <th>Ubicación</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rfid.rfids
+                ? rfid.rfids.map((elemento) => (
+                    <tr>
+                      <td>{elemento.rfidNumber}</td>
+                      <td>{elemento.type}</td>
+                      <td>{elemento.location}</td>
+                    </tr>
+                  ))
+                : "Sin ruedas asignadas"}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

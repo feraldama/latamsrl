@@ -23,8 +23,11 @@ const Nav = () => {
               </h1>
             </div>
           </Link>
-        </div>{" "}
+        </div>
       </div>
+      <Link to="/admin/">
+        <button class="button-cart2">Administrador</button>
+      </Link>
       <div className="search-bar">
         <SearchBar handleChange={(e) => console.log(e.target.value)} />
       </div>
