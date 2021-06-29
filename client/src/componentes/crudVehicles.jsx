@@ -13,7 +13,7 @@ const CrudVehicles = () => {
   const dispatch = useDispatch();
   const vehicles = useSelector((state) => state.reducerVehicle.vehicles);
 
-  console.log("vehicles: ", vehicles);
+  // console.log("vehicles: ", vehicles);
 
   useEffect(() => {
     dispatch(getVehicle());
@@ -41,7 +41,7 @@ const CrudVehicles = () => {
     categoryId: "",
   });
 
-  console.log("vehicleSeleccionado: ", vehicleSeleccionado);
+  // console.log("vehicleSeleccionado: ", vehicleSeleccionado);
 
   const seleccionarVehicle = (elemento, caso) => {
     setVehicleSeleccionado(elemento);
@@ -96,7 +96,7 @@ const CrudVehicles = () => {
             <th>Id</th>
             <th>Nombre</th>
             <th>Descripción</th>
-            <th>Chapa</th>
+            <th>Patente</th>
             <th>Imagen</th>
             <th>Categoria</th>
             <th>Activo</th>
@@ -180,7 +180,7 @@ const CrudVehicles = () => {
             />
             <br />
 
-            <label>Chapa</label>
+            <label>Patente</label>
             <input
               className="form-control"
               type="text"
@@ -290,7 +290,7 @@ const CrudVehicles = () => {
             />
             <br />
 
-            <label>Chapa</label>
+            <label>Patente</label>
             <input
               className="form-control"
               type="text"

@@ -12,14 +12,14 @@ const ReducerRfid = (state = initialState, actions) => {
       };
 
     case "POST_RFID":
-      console.log("POST VEHICLE actions.payload: ", actions.payload);
+      // console.log("POST VEHICLE actions.payload: ", actions.payload);
       return {
         rfids: [...state.rfids, actions.payload],
       };
 
     case "PUT_RFID":
       var rfidsLoaded = [];
-      console.log("actions.payload: ", actions.payload);
+      // console.log("actions.payload: ", actions.payload);
       state.rfids.map((p) => {
         if (p.id === actions.payload.id) {
           p.rfidNumber = actions.payload.rfidNumber;

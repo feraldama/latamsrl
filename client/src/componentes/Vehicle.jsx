@@ -14,7 +14,7 @@ const Vehicle = () => {
   }, []);
   const [data, setData] = useState([]);
   const [rfid, setRfid] = useState([]);
-  console.log("rfid: ", rfid);
+  // console.log("rfid: ", rfid);
   return (
     <div className="container-prod">
       <div className="container-product">
@@ -23,7 +23,7 @@ const Vehicle = () => {
         </div>
         <div className="container-data">
           <h1>{data.name}</h1>
-          <h2>Chapa: {data.plate}</h2>
+          <h2>Patente: {data.plate}</h2>
           <h3>{data.description}.</h3>
 
           <table className="table table-striped">

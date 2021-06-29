@@ -10,37 +10,37 @@ module.exports = (sequelize) => {
     },
     brand: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     invoiceNumber: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     invoiceDate: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      // allowNull: false,
     },
     company: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     measure: {
       type: DataTypes.ENUM("295", "315"),
-      allowNull: false,
+      // allowNull: false,
       defaultValue: "295",
     },
     type: {
       type: DataTypes.ENUM("Lisa", "Traccion"),
-      allowNull: false,
+      // allowNull: false,
       defaultValue: "Lisa",
     },
     location: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      // allowNull: false,
     },
     recapNumber: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      // allowNull: false,
     },
     active: {
       type: DataTypes.BOOLEAN,

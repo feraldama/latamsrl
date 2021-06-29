@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 import {
   deleteRfid,
   getRfid,
@@ -13,7 +15,7 @@ const CrudRfid = () => {
   const dispatch = useDispatch();
   const rfids = useSelector((state) => state.reducerRfid.rfids);
 
-  console.log("rfids: ", rfids);
+  // console.log("rfids: ", rfids);
 
   useEffect(() => {
     dispatch(getRfid());
@@ -44,7 +46,7 @@ const CrudRfid = () => {
     active: "",
   });
 
-  console.log("rfidSeleccionado: ", rfidSeleccionado);
+  // console.log("rfidSeleccionado: ", rfidSeleccionado);
 
   const seleccionarRfid = (elemento, caso) => {
     setRfidSeleccionado(elemento);
@@ -89,8 +91,19 @@ const CrudRfid = () => {
       <h2>Lista de RFIDs</h2>
       <br />
       <button className="btn btn-success" onClick={() => abrirModalInsertar()}>
-        Insertar
+        Insertar UNO
       </button>
+      <br />
+      <br />
+      <Link to="/admin/rfids/xls">
+        <button className="btn btn-success">Insertar VARIOS</button>
+      </Link>
+      <br />
+      <br />
+      <Link to="/admin/rfids/assignxls">
+        <button className="btn btn-success">Asignar VARIOS</button>
+      </Link>
+
       <br />
       <br />
       <table className="table table-striped">
@@ -106,7 +119,7 @@ const CrudRfid = () => {
             <th>Tipo</th>
             <th>Ubicación</th>
             <th>Nro. Recapado</th>
-            <th>Vehiculo Chapa</th>
+            <th>Vehiculo Patente</th>
             <th>Activo</th>
           </tr>
         </thead>
@@ -267,13 +280,13 @@ const CrudRfid = () => {
             />
             <br />
 
-            <label>Vehiculo Chapa</label>
+            <label>Vehiculo Patente</label>
             <select
               name="vehicleId"
               onChange={handleChange}
               value={rfidSeleccionado && rfidSeleccionado.vehicleId}
             >
-              <option>Selecciona una chapa...</option>
+              <option>Selecciona una patente...</option>
               {vehicles.map((cat) => (
                 <option type="checkbox" name="vehicleId" value={cat.id}>
                   {cat.plate}
@@ -437,13 +450,13 @@ const CrudRfid = () => {
             />
             <br />
 
-            <label>Vehiculo Chapa</label>
+            <label>Vehiculo Patente</label>
             <select
               name="vehicleId"
               onChange={handleChange}
               value={rfidSeleccionado && rfidSeleccionado.vehicleId}
             >
-              <option>Selecciona una chapa...</option>
+              <option>Selecciona una patente...</option>
               {vehicles.map((cat) => (
                 <option type="checkbox" name="vehicleId" value={cat.id}>
                   {cat.plate}

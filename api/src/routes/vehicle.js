@@ -125,10 +125,10 @@ server.post("/", (req, res, next) => {
       // res.status(201).send(vehicle.dataValues);
       // console.log("vehicle: ", vehicle);
       vehicle.setCategory(categories).then((newData) => {
-        console.log("newData: ", newData);
+        // console.log("newData: ", newData);
         Vehicle.findByPk(vehicle.dataValues.id, { include: [Category] }).then(
           (vehicleCategory) => {
-            console.log("vehicleCategory INCLUDE CAT: ", vehicleCategory);
+            // console.log("vehicleCategory INCLUDE CAT: ", vehicleCategory);
             res.status(201).send(vehicleCategory);
           }
         );

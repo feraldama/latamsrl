@@ -12,7 +12,7 @@ const VehicleCard = ({ id, name, plate, image }) => {
       </div>
       <div className="container-card-body">
         <h2 className="card-title">{name}</h2>
-        <h2 className="card-text">Chapa: {plate}</h2>
+        <h2 className="card-text">Patente: {plate}</h2>
       </div>
     </div>
   );

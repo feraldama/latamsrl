@@ -12,7 +12,7 @@ const ReducerVehicle = (state = initialState, actions) => {
       };
 
     case "POST_VEHICLE":
-      console.log("POST VEHICLE actions.payload: ", actions.payload);
+      // console.log("POST VEHICLE actions.payload: ", actions.payload);
       return {
         vehicles: [...state.vehicles, actions.payload],
       };
