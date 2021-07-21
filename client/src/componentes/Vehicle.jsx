@@ -5,7 +5,7 @@ import "./Vehicle.css";
 
 const Vehicle = () => {
   let { id } = useParams();
-  var url = "http://localhost:3001";
+  var url = "http://181.127.189.247:3001";
   useEffect(() => {
     axios.get(`${url}/vehicles/${id}`).then((data) => setData(data.data));
   }, []);
@@ -25,29 +25,44 @@ const Vehicle = () => {
           <h1>{data.name}</h1>
           <h2>Patente: {data.plate}</h2>
           <h3>{data.description}.</h3>
-
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>RFID</th>
-                <th>Tipo</th>
-                <th>Ubicación</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rfid.rfids
-                ? rfid.rfids.map((elemento) => (
-                    <tr>
-                      <td>{elemento.rfidNumber}</td>
-                      <td>{elemento.type}</td>
-                      <td>{elemento.location}</td>
-                    </tr>
-                  ))
-                : "Sin ruedas asignadas"}
-            </tbody>
-          </table>
         </div>
       </div>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>RFID</th>
+            <th>Marca</th>
+            <th>Factura Nro.</th>
+            <th>Factura Fecha</th>
+            <th>Compañia</th>
+            <th>Medida</th>
+            <th>Tipo</th>
+            <th>Ubicación</th>
+            <th>Nro. Recapado</th>
+            <th>Activo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rfid.rfids
+            ? rfid.rfids.map((elemento) => (
+                <tr>
+                  <td>{elemento.id}</td>
+                  <td>{elemento.rfidNumber}</td>
+                  <td>{elemento.brand}</td>
+                  <td>{elemento.invoiceNumber}</td>
+                  <td>{elemento.invoiceDate}</td>
+                  <td>{elemento.company}</td>
+                  <td>{elemento.measure}</td>
+                  <td>{elemento.type}</td>
+                  <td>{elemento.location}</td>
+                  <td>{elemento.recapNumber}</td>
+                  <td>{elemento.active ? "Activo" : "Inactivo"}</td>
+                </tr>
+              ))
+            : "Sin ruedas asignadas"}
+        </tbody>
+      </table>
     </div>
   );
 };

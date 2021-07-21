@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const url = 'http://localhost:3001';
+const url = "http://181.127.189.247:3001";
 
 export const getCategory = () => (dispatch) => {
   axios.get(`${url}/categories`).then((data) => {
@@ -10,10 +10,10 @@ export const getCategory = () => (dispatch) => {
     });
   });
 };
-  
+
 export const postCategory = (categorySeleccionado) => (dispatch) => {
   axios
-    .post(`http://localhost:3001/categories`, {
+    .post(`${url}/categories`, {
       name: categorySeleccionado.name,
       description: categorySeleccionado.description,
     })
@@ -23,26 +23,28 @@ export const postCategory = (categorySeleccionado) => (dispatch) => {
         payload: data.data,
       });
     });
-}
+};
 
-export const putCategory = (categorySeleccionado) => (dispatch) =>{
-  axios.put(`${url}/categories/${categorySeleccionado.id}`,{
-    name: categorySeleccionado.name,
-    description: categorySeleccionado.description,
-    active: categorySeleccionado.active,
-  }).then((data) =>{
+export const putCategory = (categorySeleccionado) => (dispatch) => {
+  axios
+    .put(`${url}/categories/${categorySeleccionado.id}`, {
+      name: categorySeleccionado.name,
+      description: categorySeleccionado.description,
+      active: categorySeleccionado.active,
+    })
+    .then((data) => {
+      dispatch({
+        type: "PUT_CATEGORY",
+        payload: data.data,
+      });
+    });
+};
+
+export const deleteCategory = (id) => (dispatch) => {
+  axios.delete(`${url}/categories/${id}`).then((data) => {
     dispatch({
-      type: "PUT_CATEGORY",
+      type: "DELETE_CATEGORY",
       payload: data.data,
     });
-  })
-}
-
-export const deleteCategory = (id) => (dispatch) =>{
-  axios.delete(`${url}/categories/${id}`).then((data) =>{
-    dispatch({
-      type: 'DELETE_CATEGORY',
-      payload: data.data,
-    })
-  })
-}
+  });
+};

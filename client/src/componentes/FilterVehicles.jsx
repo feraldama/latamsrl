@@ -9,7 +9,7 @@ const FilterVehicles = () => {
   var arrayProds = [];
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/vehicles/category/${id}`)
+      .get(`http://181.127.189.247:3001/vehicles/category/${id}`)
       .then((data) => setData(data.data));
   }, []);
   const [data, setData] = useState([]);
