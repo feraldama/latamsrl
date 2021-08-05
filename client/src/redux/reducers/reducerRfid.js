@@ -6,6 +6,7 @@ const initialState = {
 const ReducerRfid = (state = initialState, actions) => {
   switch (actions.type) {
     case "GET_RFID":
+      // console.log("actions.payload GET: ", actions.payload);
       return {
         ...state,
         rfids: actions.payload,
@@ -19,7 +20,7 @@ const ReducerRfid = (state = initialState, actions) => {
 
     case "PUT_RFID":
       var rfidsLoaded = [];
-      // console.log("actions.payload: ", actions.payload);
+      // console.log("actions.payload PUT: ", actions.payload);
       state.rfids.map((p) => {
         if (p.id === actions.payload.id) {
           p.rfidNumber = actions.payload.rfidNumber;

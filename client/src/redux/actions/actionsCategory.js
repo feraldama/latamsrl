@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://181.127.189.247:3001";
+const url = "http://192.168.0.27:3001";
 
 export const getCategory = () => (dispatch) => {
   axios.get(`${url}/categories`).then((data) => {

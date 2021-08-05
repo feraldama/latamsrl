@@ -241,6 +241,9 @@ const CrudRfid = () => {
               <option type="checkbox" name="measure" value="315">
                 315
               </option>
+              <option type="checkbox" name="measure" value="1100x22">
+                1100x22
+              </option>
             </select>
             <br />
 
@@ -271,13 +274,25 @@ const CrudRfid = () => {
             <br />
 
             <label>Nro. Recapado</label>
-            <input
-              className="form-control"
-              type="text"
+            <select
               name="recapNumber"
-              value={rfidSeleccionado && rfidSeleccionado.recapNumber}
               onChange={handleChange}
-            />
+              value={rfidSeleccionado && rfidSeleccionado.recapNumber}
+            >
+              <option>Nro. Recapado</option>
+              <option type="checkbox" name="type" value="0">
+                0
+              </option>
+              <option type="checkbox" name="type" value="1">
+                1
+              </option>
+              <option type="checkbox" name="type" value="2">
+                2
+              </option>
+              <option type="checkbox" name="type" value="3">
+                3
+              </option>
+            </select>
             <br />
 
             <label>Vehiculo Patente</label>
@@ -411,6 +426,9 @@ const CrudRfid = () => {
               <option type="checkbox" name="measure" value="315">
                 315
               </option>
+              <option type="checkbox" name="measure" value="1100x22">
+                1100x22
+              </option>
             </select>
             <br />
 
@@ -441,13 +459,25 @@ const CrudRfid = () => {
             <br />
 
             <label>Nro. Recapado</label>
-            <input
-              className="form-control"
-              type="text"
+            <select
               name="recapNumber"
-              value={rfidSeleccionado && rfidSeleccionado.recapNumber}
               onChange={handleChange}
-            />
+              value={rfidSeleccionado && rfidSeleccionado.recapNumber}
+            >
+              <option>Nro. Recapado</option>
+              <option type="checkbox" name="type" value="0">
+                0
+              </option>
+              <option type="checkbox" name="type" value="1">
+                1
+              </option>
+              <option type="checkbox" name="type" value="2">
+                2
+              </option>
+              <option type="checkbox" name="type" value="3">
+                3
+              </option>
+            </select>
             <br />
 
             <label>Vehiculo Patente</label>

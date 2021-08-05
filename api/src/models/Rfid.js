@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
       // allowNull: false,
     },
     measure: {
-      type: DataTypes.ENUM("295", "315"),
+      type: DataTypes.ENUM("295", "315", "1100x22"),
       // allowNull: false,
       defaultValue: "295",
     },
@@ -35,12 +35,13 @@ module.exports = (sequelize) => {
       defaultValue: "Lisa",
     },
     location: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       // allowNull: false,
     },
     recapNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.ENUM("0", "1", "2", "3"),
       // allowNull: false,
+      defaultValue: "0",
     },
     active: {
       type: DataTypes.BOOLEAN,
