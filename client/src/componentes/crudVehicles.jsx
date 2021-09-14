@@ -8,6 +8,8 @@ import {
   putVehicle,
 } from "../redux/actions/actionsVehicle";
 import { getCategory } from "../redux/actions/actionsCategory";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const CrudVehicles = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const CrudVehicles = () => {
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
+  const [imageVehicle, setImageVehicle] = useState(null);
 
   const [vehicleSeleccionado, setVehicleSeleccionado] = useState({
     id: "",
@@ -50,6 +53,11 @@ const CrudVehicles = () => {
 
   const handleChange = (e) => {
     var { name, value } = e.target;
+    if (name == "image2") {
+      setImageVehicle(e.target.files[0]);
+      console.log("e HandleChange: ", e.target);
+      console.log("imageVehicle: ", imageVehicle);
+    }
     if (name === "active" && value === "true") {
       value = true;
     } else if (name === "active" && value === "false") {
@@ -61,7 +69,50 @@ const CrudVehicles = () => {
     }));
   };
 
-  const editar = () => {
+  const editar = async () => {
+    if (imageVehicle) {
+      if (imageVehicle.type === "image/jpeg") {
+        // Create an object of formData
+        const formData = new FormData();
+
+        console.log("entra editar imageVehicle: ", imageVehicle);
+        console.log("entra editar imageVehicleName: ", imageVehicle.name);
+        // Update the formData object
+        formData.append("myFile", imageVehicle, imageVehicle.name);
+
+        // Details of the uploaded file
+        // console.log(this.state.selectedFile);
+
+        // Request made to the backend api
+        // Send formData object
+        console.log("formData: ", formData);
+        axios.post("http://192.168.0.27:3001/rfids/xls", formData);
+        //axios.post("http://192.168.0.27:3001/vehicles/image", formData);
+        // await Swal.fire("Realizado!", "Imagen Insertada con Éxito!", "success");
+        // window.location.reload(true);
+      } else {
+        Swal.fire("Alerta!", "Debe seleccionar un archivo IMAGEN!", "error");
+      }
+    }
+
+    // if (imageVehicle) {
+    //   console.log("entra editar imageVehicle: ", imageVehicle);
+    //   // Create an object of formData
+    //   const formData = new FormData();
+
+    //   // Update the formData object
+    //   console.log("imageVehicle.name: ", imageVehicle.name);
+    //   formData.append("myFile", imageVehicle, imageVehicle.name);
+
+    //   // Details of the uploaded file
+    //   // console.log(imageVehicle);
+
+    //   // Request made to the backend api
+    //   // Send formData object
+    //   console.log("formData: ", formData);
+    //   axios.post("http://192.168.0.27:3001/vehicles/image", formData);
+    // }
+
     dispatch(putVehicle(vehicleSeleccionado));
     setModalEditar(false);
   };
@@ -198,6 +249,8 @@ const CrudVehicles = () => {
               value={vehicleSeleccionado && vehicleSeleccionado.image}
               onChange={handleChange}
             />
+            <input name="image2" type="file" onChange={handleChange} />
+            {/* <button onClick={this.onFileUpload}>Subir!</button> */}
             <br />
 
             <label>Categoria</label>

@@ -141,32 +141,9 @@ server.post("/", (req, res, next) => {
 });
 
 // Agregar IMAGEN
-server.post("/image", (req, res, next) => {
-  const { plate, name, description, image, categories } = req.body;
-  Vehicle.create({
-    plate,
-    name,
-    description,
-    image,
-  })
-    .then((vehicle) => {
-      // vehicle.setCategory(categories).catch((err) => console.error(err));
-      // res.status(201).send(vehicle.dataValues);
-      // console.log("vehicle: ", vehicle);
-      vehicle.setCategory(categories).then((newData) => {
-        // console.log("newData: ", newData);
-        Vehicle.findByPk(vehicle.dataValues.id, { include: [Category] }).then(
-          (vehicleCategory) => {
-            // console.log("vehicleCategory INCLUDE CAT: ", vehicleCategory);
-            res.status(201).send(vehicleCategory);
-          }
-        );
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(400).send(error);
-    });
+server.post("/image", (req, res) => {
+  console.log("entra Vehicles: ", req.files);
+  res.status(201).send("bien");
 });
 
 // Crear/Agregar review

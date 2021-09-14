@@ -19,13 +19,13 @@ const NavAdmin = () => {
         </div>{" "}
       </div>
       <Link to="/admin/categories">
-        <button class="button-cart2">Lista de Categorias</button>
+        <button className="button-cart2">Lista de Categorias</button>
       </Link>
       <Link to="/admin/vehicles">
-        <button class="button-cart2">Lista de Vehiculos</button>
+        <button className="button-cart2">Lista de Vehiculos</button>
       </Link>
       <Link to="/admin/rfids">
-        <button class="button-cart2">Lista de RFIDs</button>
+        <button className="button-cart2">Lista de RFIDs</button>
       </Link>
     </nav>
   );
