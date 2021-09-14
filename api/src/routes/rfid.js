@@ -250,79 +250,72 @@ server.post("/", (req, res, next) => {
 
 // Crear/Agregar VARIOS rfid
 server.post("/xls", (req, res) => {
-  console.log("entra: ", req.files);
-
+  // console.log("entra: ", req);
   if (req.files) {
-    // console.log("req.files.mimetype: ", req.files.myFile.mimetype);
-    if (req.files.myFile.mimetype == "image/jpeg") {
-      console.log("encontró imagen");
-    } else {
-      // console.log("req.files: ", req.files);
-      var file = req.files.myFile;
-      var fileName = "rfids.xls";
-      // console.log("fileName: ", fileName);
+    // console.log("req.files: ", req.files);
+    var file = req.files.myFile;
+    var fileName = "rfids.xls";
+    // console.log("fileName: ", fileName);
 
-      file.mv("C:/Programas/" + fileName, function (err) {
-        if (err) {
-          console.log(err);
-        } else {
-          // console.log("File Uploaded");
-          var workbook = XLSX.readFile("C:/Programas/" + fileName);
-          var sheet_name_list = workbook.SheetNames;
-          sheet_name_list.forEach(function (y) {
-            var worksheet = workbook.Sheets[y];
-            //getting the complete sheet
-            // console.log(worksheet);
+    file.mv("C:/Programas/" + fileName, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        // console.log("File Uploaded");
+        var workbook = XLSX.readFile("C:/Programas/" + fileName);
+        var sheet_name_list = workbook.SheetNames;
+        sheet_name_list.forEach(function (y) {
+          var worksheet = workbook.Sheets[y];
+          //getting the complete sheet
+          // console.log(worksheet);
 
-            var headers = {};
-            var data = [];
-            for (z in worksheet) {
-              if (z[0] === "!") continue;
-              //parse out the column, row, and value
-              var col = z.substring(0, 1);
-              // console.log(col);
+          var headers = {};
+          var data = [];
+          for (z in worksheet) {
+            if (z[0] === "!") continue;
+            //parse out the column, row, and value
+            var col = z.substring(0, 1);
+            // console.log(col);
 
-              var row = parseInt(z.substring(1));
-              // console.log(row);
+            var row = parseInt(z.substring(1));
+            // console.log(row);
 
-              var value = worksheet[z].v;
-              // console.log(value);
+            var value = worksheet[z].v;
+            // console.log(value);
 
-              //store header names
-              if (row == 1) {
-                headers[col] = value;
-                // storing the header names
-                continue;
-              }
-
-              if (!data[row]) data[row] = {};
-              data[row][headers[col]] = value;
+            //store header names
+            if (row == 1) {
+              headers[col] = value;
+              // storing the header names
+              continue;
             }
-            //drop those first two rows which are empty
-            data.shift();
-            data.shift();
-            // console.log("data: ", data);
-            const val = [];
 
-            data.map((dat) => {
-              Rfid.create({
-                rfidNumber: dat.EPC,
-              });
-              // .then((rfid) => {
-              //   console.log("then rfid: ", rfid);
-              // })
-              // .catch((error) => {
-              //   console.error(error);
-              //   res.status(400).send(error);
-              // });
+            if (!data[row]) data[row] = {};
+            data[row][headers[col]] = value;
+          }
+          //drop those first two rows which are empty
+          data.shift();
+          data.shift();
+          // console.log("data: ", data);
+          const val = [];
+
+          data.map((dat) => {
+            Rfid.create({
+              rfidNumber: dat.EPC,
             });
-            res.status(201).send("Correcto");
+            // .then((rfid) => {
+            //   console.log("then rfid: ", rfid);
+            // })
+            // .catch((error) => {
+            //   console.error(error);
+            //   res.status(400).send(error);
+            // });
           });
-        }
-      });
-    }
+          res.status(201).send("Correcto");
+        });
+      }
+    });
   }
-
   res.status(200);
 });
 

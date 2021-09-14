@@ -57,16 +57,24 @@ const CrudVehicles = () => {
       setImageVehicle(e.target.files[0]);
       console.log("e HandleChange: ", e.target);
       console.log("imageVehicle: ", imageVehicle);
+      console.log("vehicleSeleccionado: ", vehicleSeleccionado);
     }
     if (name === "active" && value === "true") {
       value = true;
     } else if (name === "active" && value === "false") {
       value = false;
     }
+    if (imageVehicle) {
+      setVehicleSeleccionado((prevState) => ({
+        ...prevState,
+        ["image"]: `http://192.168.0.27:8887/${imageVehicle.name}`,
+      }));
+    }
     setVehicleSeleccionado((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+    console.log("vehicelSelec: ", e.target);
   };
 
   const editar = async () => {
@@ -75,8 +83,8 @@ const CrudVehicles = () => {
         // Create an object of formData
         const formData = new FormData();
 
-        console.log("entra editar imageVehicle: ", imageVehicle);
-        console.log("entra editar imageVehicleName: ", imageVehicle.name);
+        // console.log("entra editar imageVehicle: ", imageVehicle);
+        // console.log("entra editar imageVehicleName: ", imageVehicle.name);
         // Update the formData object
         formData.append("myFile", imageVehicle, imageVehicle.name);
 
@@ -85,9 +93,9 @@ const CrudVehicles = () => {
 
         // Request made to the backend api
         // Send formData object
-        console.log("formData: ", formData);
-        axios.post("http://192.168.0.27:3001/rfids/xls", formData);
-        //axios.post("http://192.168.0.27:3001/vehicles/image", formData);
+        // console.log("formData: ", formData);
+        // axios.post("http://192.168.0.27:3001/rfids/xls", formData);
+        axios.post("http://192.168.0.27:3001/vehicles/image", formData);
         // await Swal.fire("Realizado!", "Imagen Insertada con Éxito!", "success");
         // window.location.reload(true);
       } else {

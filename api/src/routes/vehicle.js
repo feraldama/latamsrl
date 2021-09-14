@@ -2,6 +2,9 @@ const server = require("express").Router();
 const { Op } = require("sequelize");
 // const { Vehicle, Category, Review, User } = require("../db.js");
 const { Vehicle, Category } = require("../db.js");
+const upload = require("express-fileupload");
+
+server.use(upload());
 
 // Obtener todos los vehuculos
 server.get("/", (_req, res, next) => {
@@ -142,8 +145,24 @@ server.post("/", (req, res, next) => {
 
 // Agregar IMAGEN
 server.post("/image", (req, res) => {
-  console.log("entra Vehicles: ", req.files);
-  res.status(201).send("bien");
+  // console.log("entra Vehicles: ", req.files);
+  if (req.files) {
+    // console.log("req.files.mimetype: ", req.files.myFile.mimetype);
+    // console.log("req.files.myFile: ", req.files.myFile);
+    var file = req.files.myFile;
+    var fileName = req.files.myFile.name;
+    // console.log("fileName: ", fileName);
+
+    file.mv("C:/Programas/Vehiculos/" + fileName, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200);
+      }
+    });
+  }
+
+  res.status(200);
 });
 
 // Crear/Agregar review
