@@ -44,8 +44,6 @@ const CrudVehicles = () => {
     categoryId: "",
   });
 
-  // console.log("vehicleSeleccionado: ", vehicleSeleccionado);
-
   const seleccionarVehicle = (elemento, caso) => {
     setVehicleSeleccionado(elemento);
     caso === "Editar" ? setModalEditar(true) : setModalEliminar(true);
@@ -55,27 +53,26 @@ const CrudVehicles = () => {
     var { name, value } = e.target;
     if (name == "image2") {
       setImageVehicle(e.target.files[0]);
-      console.log("e HandleChange: ", e.target);
-      console.log("imageVehicle: ", imageVehicle);
-      console.log("vehicleSeleccionado: ", vehicleSeleccionado);
     }
     if (name === "active" && value === "true") {
       value = true;
     } else if (name === "active" && value === "false") {
       value = false;
     }
+    setVehicleSeleccionado((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
     if (imageVehicle) {
       setVehicleSeleccionado((prevState) => ({
         ...prevState,
         ["image"]: `http://192.168.0.27:8887/${imageVehicle.name}`,
       }));
     }
-    setVehicleSeleccionado((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-    console.log("vehicelSelec: ", e.target);
-  };
+  }, [imageVehicle]);
 
   const editar = async () => {
     if (imageVehicle) {
