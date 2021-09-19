@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import {
-  deleteCategory,
   getCategory,
   postCategory,
   putCategory,
