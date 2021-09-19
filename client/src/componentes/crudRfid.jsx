@@ -116,7 +116,7 @@ const CrudRfid = () => {
       </div>
 
       <div className="table-responsive-xl">
-        <Table striped bordered hover size="sm">
+        <Table striped bordered hover size="xl">
           <thead>
             <tr>
               <th>Id</th>
