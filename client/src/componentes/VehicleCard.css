@@ -22,7 +22,12 @@
   }
 }
 
-.button-cart2 {
+.container-card-img img{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  
+}.button-cart2 {
   border: 2px solid white;
   background-color: #4DC591;
   color: white;

@@ -7,7 +7,7 @@ const VehicleCard = ({ id, name, plate, image }) => {
     <Link to={`/vehicles/${id}`}>
       <div className="container-card">
         <div className="container-card-img">
-          <img src={image} alt="Aqui va la imagen" width="100%" height="auto" />
+          <img src={image} alt="Aqui va la imagen" width="90%" height="auto" />
         </div>
         <div className="container-card-body">
           <h2 className="card-title">{name}</h2>
