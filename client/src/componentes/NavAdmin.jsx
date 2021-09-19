@@ -18,15 +18,17 @@ const NavAdmin = () => {
           </Link>
         </div>{" "}
       </div>
-      <Link to="/admin/categories">
-        <button className="button-cart2">Lista de Categorias</button>
-      </Link>
-      <Link to="/admin/vehicles">
-        <button className="button-cart2">Lista de Vehiculos</button>
-      </Link>
-      <Link to="/admin/rfids">
-        <button className="button-cart2">Lista de RFIDs</button>
-      </Link>
+      <div className="admin-links">
+        <Link to="/admin/categories">
+          <button className="button-cart2">Lista de Categorias</button>
+        </Link>
+        <Link to="/admin/vehicles">
+          <button className="button-cart2">Lista de Vehiculos</button>
+        </Link>
+        <Link to="/admin/rfids">
+          <button className="button-cart2">Lista de RFIDs</button>
+        </Link>
+      </div>
     </nav>
   );
 };
