@@ -12,16 +12,9 @@ const Catalogo = () => {
   const [data, setData] = useState([]);
   return (
     <div className="container">
-      {data
-        // .filter((p) => p.stock > 0)
-        .map((t) => (
-          <VehicleCard
-            id={t.id}
-            name={t.name}
-            plate={t.plate}
-            image={t.image}
-          />
-        ))}
+      {data.map((t) => (
+        <VehicleCard id={t.id} name={t.name} plate={t.plate} image={t.image} />
+      ))}
     </div>
   );
 };
