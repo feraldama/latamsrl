@@ -14,6 +14,7 @@ import RfidsAdd from "./componentes/RfidsAdd.jsx";
 import RfidsAssing from "./componentes/RfidsAssign.jsx";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./App.css";
 
 function App() {

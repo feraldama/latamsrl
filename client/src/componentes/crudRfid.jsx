@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Table } from "react-bootstrap";
 
 import {
   deleteRfid,
@@ -9,6 +10,7 @@ import {
   postRfid,
   putRfid,
 } from "../redux/actions/actionsRfid";
+
 import { getVehicle } from "../redux/actions/actionsVehicle";
 
 const CrudRfid = () => {
@@ -88,77 +90,86 @@ const CrudRfid = () => {
 
   return (
     <div className="App">
+      <br />
+      <br />
       <h2>Lista de RFIDs</h2>
-      <br />
-      <button className="btn btn-success" onClick={() => abrirModalInsertar()}>
-        Insertar UNO
-      </button>
-      <br />
-      <br />
-      <Link to="/admin/rfids/xls">
-        <button className="btn btn-success">Insertar VARIOS</button>
-      </Link>
-      <br />
-      <br />
-      <Link to="/admin/rfids/assignxls">
-        <button className="btn btn-success">Asignar VARIOS</button>
-      </Link>
+      <div className="prueba">
+        <button
+          className="btn btn-success"
+          onClick={() => abrirModalInsertar()}
+        >
+          Insertar UNO
+        </button>
+        <br />
+        <br />
+        <Link to="/admin/rfids/xls">
+          <button className="btn btn-success">Insertar VARIOS</button>
+        </Link>
+        <br />
+        <br />
+        <Link to="/admin/rfids/assignxls">
+          <button className="btn btn-success">Asignar VARIOS</button>
+        </Link>
 
-      <br />
-      <br />
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>RFID</th>
-            <th>Marca</th>
-            <th>Factura Nro.</th>
-            <th>Factura Fecha</th>
-            <th>Compañia</th>
-            <th>Medida</th>
-            <th>Tipo</th>
-            <th>Ubicación</th>
-            <th>Nro. Recapado</th>
-            <th>Vehiculo Patente</th>
-            <th>Activo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rfids.map((elemento) => (
+        <br />
+        <br />
+      </div>
+
+      <div className="table-responsive-xl">
+        <Table striped bordered hover size="sm">
+          <thead>
             <tr>
-              <td>{elemento.id}</td>
-              <td>{elemento.rfidNumber}</td>
-              <td>{elemento.brand}</td>
-              <td>{elemento.invoiceNumber}</td>
-              <td>{elemento.invoiceDate}</td>
-              <td>{elemento.company}</td>
-              <td>{elemento.measure}</td>
-              <td>{elemento.type}</td>
-              <td>{elemento.location}</td>
-              <td>{elemento.recapNumber}</td>
-              <td>
-                <span>{elemento.vehicle ? elemento.vehicle.plate : ""}</span>
-              </td>
-              <td>{elemento.active ? "Activo" : "Inactivo"}</td>
-              <td>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => seleccionarRfid(elemento, "Editar")}
-                >
-                  Editar
-                </button>{" "}
-                {"   "}
-                <button
-                  className="btn btn-danger"
-                  onClick={() => seleccionarRfid(elemento, "Eliminar")}
-                >
-                  Eliminar
-                </button>{" "}
-              </td>
+              <th>Id</th>
+              <th>RFID</th>
+              <th>Marca</th>
+              <th>Factura Nro.</th>
+              <th>Factura Fecha</th>
+              <th>Compañia</th>
+              <th>Medida</th>
+              <th>Tipo</th>
+              <th>Ubicación</th>
+              <th>Nro. Recapado</th>
+              <th>Vehiculo Patente</th>
+              <th>Activo</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {rfids.map((elemento) => (
+              <tr>
+                <td>{elemento.id}</td>
+                <td>{elemento.rfidNumber}</td>
+                <td>{elemento.brand}</td>
+                <td>{elemento.invoiceNumber}</td>
+                <td>{elemento.invoiceDate}</td>
+                <td>{elemento.company}</td>
+                <td>{elemento.measure}</td>
+                <td>{elemento.type}</td>
+                <td>{elemento.location}</td>
+                <td>{elemento.recapNumber}</td>
+                <td>
+                  <span>{elemento.vehicle ? elemento.vehicle.plate : ""}</span>
+                </td>
+                <td>{elemento.active ? "Activo" : "Inactivo"}</td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => seleccionarRfid(elemento, "Editar")}
+                  >
+                    Editar
+                  </button>{" "}
+                  {"   "}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => seleccionarRfid(elemento, "Eliminar")}
+                  >
+                    Eliminar
+                  </button>{" "}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
 
       <Modal isOpen={modalEditar}>
         <ModalHeader>

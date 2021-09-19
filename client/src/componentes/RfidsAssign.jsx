@@ -12,7 +12,7 @@ class RfidsAssign extends Component {
 
   // On file select (from the pop up)
   onFileChange = (event) => {
-    axios.get(`http://192.168.0.27:3001/vehicles`).then((data) => {
+    axios.get(`http://192.168.0.4:3001/vehicles`).then((data) => {
       // console.log("DATA EN Assign: ", data.data);
       this.setState({ plate: data.data });
       // console.log("PLATE: ", this.state.plate);
@@ -44,7 +44,7 @@ class RfidsAssign extends Component {
         // Request made to the backend api
         // Send formData object
         // console.log("formData: ", formData);
-        axios.post("http://192.168.0.27:3001/rfids/assignxls", formData);
+        axios.post("http://192.168.0.4:3001/rfids/assignxls", formData);
 
         await Swal.fire(
           "Realizado!",

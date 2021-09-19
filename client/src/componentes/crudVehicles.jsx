@@ -69,7 +69,7 @@ const CrudVehicles = () => {
     if (imageVehicle) {
       setVehicleSeleccionado((prevState) => ({
         ...prevState,
-        ["image"]: `http://192.168.0.27:8887/${imageVehicle.name}`,
+        ["image"]: `http://192.168.0.4:8887/${imageVehicle.name}`,
       }));
     }
   }, [imageVehicle]);
@@ -91,8 +91,8 @@ const CrudVehicles = () => {
         // Request made to the backend api
         // Send formData object
         // console.log("formData: ", formData);
-        // axios.post("http://192.168.0.27:3001/rfids/xls", formData);
-        axios.post("http://192.168.0.27:3001/vehicles/image", formData);
+        // axios.post("http://192.168.0.4:3001/rfids/xls", formData);
+        axios.post("http://192.168.0.4:3001/vehicles/image", formData);
         // await Swal.fire("Realizado!", "Imagen Insertada con Éxito!", "success");
         // window.location.reload(true);
       } else {
@@ -115,7 +115,7 @@ const CrudVehicles = () => {
     //   // Request made to the backend api
     //   // Send formData object
     //   console.log("formData: ", formData);
-    //   axios.post("http://192.168.0.27:3001/vehicles/image", formData);
+    //   axios.post("http://192.168.0.4:3001/vehicles/image", formData);
     // }
 
     dispatch(putVehicle(vehicleSeleccionado));
