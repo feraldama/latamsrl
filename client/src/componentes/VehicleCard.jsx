@@ -4,17 +4,17 @@ import "./VehicleCard.css";
 
 const VehicleCard = ({ id, name, plate, image }) => {
   return (
-    <div className="container-card">
-      <div className="container-card-img">
-        <Link to={`/vehicles/${id}`}>
+    <Link to={`/vehicles/${id}`}>
+      <div className="container-card">
+        <div className="container-card-img">
           <img src={image} alt="Aqui va la imagen" width="100%" height="auto" />
-        </Link>
+        </div>
+        <div className="container-card-body">
+          <h2 className="card-title">{name}</h2>
+          <h2 className="card-text">Patente: {plate}</h2>
+        </div>
       </div>
-      <div className="container-card-body">
-        <h2 className="card-title">{name}</h2>
-        <h2 className="card-text">Patente: {plate}</h2>
-      </div>
-    </div>
+    </Link>
   );
 };
 export default VehicleCard;

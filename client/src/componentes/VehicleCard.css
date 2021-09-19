@@ -10,8 +10,9 @@
 }
 
 .container-card:hover {
-  box-shadow: 0 20px 40px rgb(0 0 0 / 10%);
-  border: 3px solid #4DC591;
+  box-shadow: 0 80px 40px rgb(0 0 0 / 10%);
+  border: 1px solid #4DC591;
+  
 }
 
 @media screen and (max-width: 400px) {
