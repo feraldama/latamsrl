@@ -18,7 +18,7 @@ const FilterCategories = () => {
   };
 
   return (
-    <div className="container-categories">
+    <div className="container-categories ">
       <br></br>
       <br></br>
       <h1>Filtrar Vehiculos por categorias</h1>
@@ -28,6 +28,8 @@ const FilterCategories = () => {
           <option value={c.id}>{c.name}</option>
         ))}
       </select>
+      <br />
+      <br />
     </div>
   );
 };

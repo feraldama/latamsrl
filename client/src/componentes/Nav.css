@@ -1,6 +1,7 @@
 @media screen and (max-width: 550px) {
   .nav-container {
     width: 100%;
+    margin-bottom: 20px;
   }
   .logos {
     margin: 20px 20px;
@@ -33,6 +34,7 @@
   box-shadow: 5px 5px 15px rgb(0 0 0 / 25%);
   border-bottom: 5px solid #4dc591;
   align-items: center;
+  /* margin-bottom: 10px; */
 }
 
 .logos {

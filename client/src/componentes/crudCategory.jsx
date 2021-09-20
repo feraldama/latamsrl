@@ -65,6 +65,8 @@ const CrudCategory = () => {
 
   return (
     <div className="App">
+      <br />
+      <br />
       <h2>Lista de Categorías</h2>
       <br />
       <button className="btn btn-success" onClick={() => abrirModalInsertar()}>
