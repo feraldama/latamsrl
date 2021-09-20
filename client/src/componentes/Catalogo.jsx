@@ -6,22 +6,15 @@ import VehicleCard from "./VehicleCard.jsx";
 const Catalogo = () => {
   useEffect(() => {
     axios
-      .get("http://192.168.0.27:3001/vehicles/actives")
+      .get("http://192.168.0.4:3001/vehicles/actives")
       .then((data) => setData(data.data));
   }, []);
   const [data, setData] = useState([]);
   return (
     <div className="container">
-      {data
-        // .filter((p) => p.stock > 0)
-        .map((t) => (
-          <VehicleCard
-            id={t.id}
-            name={t.name}
-            plate={t.plate}
-            image={t.image}
-          />
-        ))}
+      {data.map((t) => (
+        <VehicleCard id={t.id} name={t.name} plate={t.plate} image={t.image} />
+      ))}
     </div>
   );
 };

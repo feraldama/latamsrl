@@ -10,6 +10,7 @@ import {
 import { getCategory } from "../redux/actions/actionsCategory";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Table } from "react-bootstrap";
 
 const CrudVehicles = () => {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const CrudVehicles = () => {
     if (imageVehicle) {
       setVehicleSeleccionado((prevState) => ({
         ...prevState,
-        ["image"]: `http://192.168.0.27:8887/${imageVehicle.name}`,
+        ["image"]: `http://192.168.0.4:8887/${imageVehicle.name}`,
       }));
     }
   }, [imageVehicle]);
@@ -91,8 +92,8 @@ const CrudVehicles = () => {
         // Request made to the backend api
         // Send formData object
         // console.log("formData: ", formData);
-        // axios.post("http://192.168.0.27:3001/rfids/xls", formData);
-        axios.post("http://192.168.0.27:3001/vehicles/image", formData);
+        // axios.post("http://192.168.0.4:3001/rfids/xls", formData);
+        axios.post("http://192.168.0.4:3001/vehicles/image", formData);
         // await Swal.fire("Realizado!", "Imagen Insertada con Éxito!", "success");
         // window.location.reload(true);
       } else {
@@ -115,7 +116,7 @@ const CrudVehicles = () => {
     //   // Request made to the backend api
     //   // Send formData object
     //   console.log("formData: ", formData);
-    //   axios.post("http://192.168.0.27:3001/vehicles/image", formData);
+    //   axios.post("http://192.168.0.4:3001/vehicles/image", formData);
     // }
 
     dispatch(putVehicle(vehicleSeleccionado));
@@ -139,6 +140,8 @@ const CrudVehicles = () => {
 
   return (
     <div className="App">
+      <br />
+      <br />
       <h2>Lista de Vehiculos</h2>
       <br />
       <button className="btn btn-success" onClick={() => abrirModalInsertar()}>
@@ -146,57 +149,60 @@ const CrudVehicles = () => {
       </button>
       <br />
       <br />
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Patente</th>
-            <th>Imagen</th>
-            <th>Categoria</th>
-            <th>Activo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vehicles.map((elemento) => (
+
+      <div className="table-responsive-xl">
+        <Table striped bordered hover size="sm">
+          <thead>
             <tr>
-              <td>{elemento.id}</td>
-              <td>{elemento.name}</td>
-              <td>{elemento.description}</td>
-              <td>{elemento.plate}</td>
-              {/* <td>{elemento.image}</td> */}
-              <td width="30%">
-                <img
-                  src={elemento.image}
-                  alt="Aqui va la imagen"
-                  width="40%"
-                  height="auto"
-                />
-              </td>
-              <td>
-                <span>{elemento.category ? elemento.category.name : ""}</span>
-              </td>
-              <td>{elemento.active ? "Activo" : "Inactivo"}</td>
-              <td>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => seleccionarVehicle(elemento, "Editar")}
-                >
-                  Editar
-                </button>{" "}
-                {"   "}
-                <button
-                  className="btn btn-danger"
-                  onClick={() => seleccionarVehicle(elemento, "Eliminar")}
-                >
-                  Eliminar
-                </button>{" "}
-              </td>
+              <th>Id</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Patente</th>
+              <th>Imagen</th>
+              <th>Categoria</th>
+              <th>Activo</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {vehicles.map((elemento) => (
+              <tr>
+                <td>{elemento.id}</td>
+                <td>{elemento.name}</td>
+                <td>{elemento.description}</td>
+                <td>{elemento.plate}</td>
+                {/* <td>{elemento.image}</td> */}
+                <td width="30%">
+                  <img
+                    src={elemento.image}
+                    alt="Aqui va la imagen"
+                    width="40%"
+                    height="auto"
+                  />
+                </td>
+                <td>
+                  <span>{elemento.category ? elemento.category.name : ""}</span>
+                </td>
+                <td>{elemento.active ? "Activo" : "Inactivo"}</td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => seleccionarVehicle(elemento, "Editar")}
+                  >
+                    Editar
+                  </button>{" "}
+                  {"   "}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => seleccionarVehicle(elemento, "Eliminar")}
+                  >
+                    Eliminar
+                  </button>{" "}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
 
       <Modal isOpen={modalEditar}>
         <ModalHeader>

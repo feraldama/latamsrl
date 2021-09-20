@@ -34,7 +34,7 @@ class RfidsAdd extends Component {
         // Request made to the backend api
         // Send formData object
         // console.log("formData: ", formData);
-        axios.post("http://192.168.0.27:3001/rfids/xls", formData);
+        axios.post("http://192.168.0.4:3001/rfids/xls", formData);
         await Swal.fire("Realizado!", "Rfids Insertados con Éxito!", "success");
         window.location.reload(true);
       } else {

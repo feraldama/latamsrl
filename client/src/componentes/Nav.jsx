@@ -31,6 +31,7 @@ const Nav = () => {
       <div className="search-bar">
         <SearchBar handleChange={(e) => console.log(e.target.value)} />
       </div>
+      <br />
     </nav>
   );
 };
