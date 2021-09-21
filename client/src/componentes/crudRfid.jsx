@@ -3,14 +3,14 @@ import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
-
 import {
   deleteRfid,
   getRfid,
   postRfid,
   putRfid,
 } from "../redux/actions/actionsRfid";
-
+import axios from "axios";
+import Swal from "sweetalert2";
 import { getVehicle } from "../redux/actions/actionsVehicle";
 
 const CrudRfid = () => {
@@ -32,6 +32,7 @@ const CrudRfid = () => {
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
+  const [imageRfid, setImageRfid] = useState(null);
 
   const [rfidSeleccionado, setRfidSeleccionado] = useState({
     id: "",
@@ -39,13 +40,14 @@ const CrudRfid = () => {
     brand: "",
     invoiceNumber: "",
     invoiceDate: "",
-    company: false,
+    company: "",
     measure: "",
     type: "",
     location: "",
-    recapNumber: false,
+    recapNumber: 0,
+    image: "",
     vehicleId: "",
-    active: "",
+    active: false,
   });
 
   // console.log("rfidSeleccionado: ", rfidSeleccionado);
@@ -57,6 +59,9 @@ const CrudRfid = () => {
 
   const handleChange = (e) => {
     var { name, value } = e.target;
+    if (name == "image2") {
+      setImageRfid(e.target.files[0]);
+    }
     if (name === "active" && value === "true") {
       value = true;
     } else if (name === "active" && value === "false") {
@@ -68,7 +73,33 @@ const CrudRfid = () => {
     }));
   };
 
+  const imageUpload = () => {
+    if (imageRfid) {
+      if (imageRfid.type === "image/jpeg") {
+        const formData = new FormData();
+        formData.append("myFile", imageRfid, imageRfid.name);
+        axios.post("http://192.168.0.27:3001/rfids/image", formData);
+      } else {
+        Swal.fire(
+          "Alerta!",
+          "Debe seleccionar un archivo IMAGEN (*.jpg)!",
+          "error"
+        );
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (imageRfid) {
+      setRfidSeleccionado((prevState) => ({
+        ...prevState,
+        ["image"]: `http://192.168.0.27:8081/Rfids/${imageRfid.name}`,
+      }));
+    }
+  }, [imageRfid]);
+
   const editar = () => {
+    imageUpload();
     dispatch(putRfid(rfidSeleccionado));
     setModalEditar(false);
   };
@@ -84,6 +115,7 @@ const CrudRfid = () => {
   };
 
   const insertar = () => {
+    imageUpload();
     dispatch(postRfid(rfidSeleccionado));
     setModalInsertar(false);
   };
@@ -129,6 +161,7 @@ const CrudRfid = () => {
               <th>Tipo</th>
               <th>Ubicación</th>
               <th>Nro. Recapado</th>
+              <th>Imagen</th>
               <th>Vehiculo Patente</th>
               <th>Activo</th>
             </tr>
@@ -146,6 +179,14 @@ const CrudRfid = () => {
                 <td>{elemento.type}</td>
                 <td>{elemento.location}</td>
                 <td>{elemento.recapNumber}</td>
+                <td width="20%">
+                  <img
+                    src={elemento.image}
+                    alt="Aqui va la imagen"
+                    width="40%"
+                    height="auto"
+                  />
+                </td>
                 <td>
                   <span>{elemento.vehicle ? elemento.vehicle.plate : ""}</span>
                 </td>
@@ -304,6 +345,17 @@ const CrudRfid = () => {
                 3
               </option>
             </select>
+            <br />
+
+            <label>Imagen</label>
+            <input
+              className="form-control"
+              type="text"
+              name="image"
+              value={rfidSeleccionado && rfidSeleccionado.image}
+              onChange={handleChange}
+            />
+            <input name="image2" type="file" onChange={handleChange} />
             <br />
 
             <label>Vehiculo Patente</label>
@@ -489,6 +541,17 @@ const CrudRfid = () => {
                 3
               </option>
             </select>
+            <br />
+
+            <label>Imagen</label>
+            <input
+              className="form-control"
+              type="text"
+              name="image"
+              value={rfidSeleccionado && rfidSeleccionado.image}
+              onChange={handleChange}
+            />
+            <input name="image2" type="file" onChange={handleChange} />
             <br />
 
             <label>Vehiculo Patente</label>

@@ -42,7 +42,7 @@ server.get("/actives", (_req, res, next) => {
 // Modificar un rfid
 server.put("/:id", (req, res, next) => {
   // console.log("req.body BACK: ", req.body);
-  Rfid.findByPk(req.params.id, { include: [Vehicle] }) // Busco el vehiculo por clave primaria (id)
+  Rfid.findByPk(req.params.id, { include: [Vehicle] }) // Busco el rfid por clave primaria (id)
     .then((currentRfidData) => {
       // console.log("currentVehicleData: ", currentRfidData);
       if (!currentRfidData)
@@ -63,6 +63,7 @@ server.put("/:id", (req, res, next) => {
         type = currentRfidData.type,
         location = currentRfidData.location,
         recapNumber = currentRfidData.recapNumber,
+        image = currentRfidData.image,
         vehicleId = currentRfidData.vehicleId,
         active = currentRfidData.active,
       } = req.body;
@@ -87,6 +88,7 @@ server.put("/:id", (req, res, next) => {
           type,
           location,
           recapNumber,
+          image,
           vehicleId,
           active,
         },
@@ -220,6 +222,7 @@ server.post("/", (req, res, next) => {
     type,
     location,
     recapNumber,
+    image,
     vehicleId,
   } = req.body;
   Rfid.create({
@@ -232,6 +235,7 @@ server.post("/", (req, res, next) => {
     type,
     location,
     recapNumber,
+    image,
   })
     .then((rfid) => {
       rfid.setVehicle(vehicleId).then((newData) => {
@@ -313,6 +317,26 @@ server.post("/xls", (req, res) => {
           });
           res.status(201).send("Correcto");
         });
+      }
+    });
+  }
+  res.status(200);
+});
+
+// Agregar IMAGEN
+server.post("/image", (req, res) => {
+  // console.log("entra Vehicles: ", req.files);
+  if (req.files) {
+    // console.log("req.files.mimetype: ", req.files.myFile.mimetype);
+    // console.log("req.files.myFile: ", req.files.myFile);
+    var file = req.files.myFile;
+    var fileName = req.files.myFile.name;
+    // console.log("fileName: ", fileName);
+    file.mv("C:/Programas/Imagenes/Rfids/" + fileName, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200);
       }
     });
   }

@@ -66,59 +66,33 @@ const CrudVehicles = () => {
     }));
   };
 
+  const imageUpload = () => {
+    if (imageVehicle) {
+      if (imageVehicle.type === "image/jpeg") {
+        const formData = new FormData();
+        formData.append("myFile", imageVehicle, imageVehicle.name);
+        axios.post("http://192.168.0.27:3001/vehicles/image", formData);
+      } else {
+        Swal.fire(
+          "Alerta!",
+          "Debe seleccionar un archivo IMAGEN (*.jpg)!",
+          "error"
+        );
+      }
+    }
+  };
+
   useEffect(() => {
     if (imageVehicle) {
       setVehicleSeleccionado((prevState) => ({
         ...prevState,
-        ["image"]: `http://192.168.0.4:8887/${imageVehicle.name}`,
+        ["image"]: `http://192.168.0.27:8081/Vehiculos/${imageVehicle.name}`,
       }));
     }
   }, [imageVehicle]);
 
-  const editar = async () => {
-    if (imageVehicle) {
-      if (imageVehicle.type === "image/jpeg") {
-        // Create an object of formData
-        const formData = new FormData();
-
-        // console.log("entra editar imageVehicle: ", imageVehicle);
-        // console.log("entra editar imageVehicleName: ", imageVehicle.name);
-        // Update the formData object
-        formData.append("myFile", imageVehicle, imageVehicle.name);
-
-        // Details of the uploaded file
-        // console.log(this.state.selectedFile);
-
-        // Request made to the backend api
-        // Send formData object
-        // console.log("formData: ", formData);
-        // axios.post("http://192.168.0.4:3001/rfids/xls", formData);
-        axios.post("http://192.168.0.4:3001/vehicles/image", formData);
-        // await Swal.fire("Realizado!", "Imagen Insertada con Éxito!", "success");
-        // window.location.reload(true);
-      } else {
-        Swal.fire("Alerta!", "Debe seleccionar un archivo IMAGEN!", "error");
-      }
-    }
-
-    // if (imageVehicle) {
-    //   console.log("entra editar imageVehicle: ", imageVehicle);
-    //   // Create an object of formData
-    //   const formData = new FormData();
-
-    //   // Update the formData object
-    //   console.log("imageVehicle.name: ", imageVehicle.name);
-    //   formData.append("myFile", imageVehicle, imageVehicle.name);
-
-    //   // Details of the uploaded file
-    //   // console.log(imageVehicle);
-
-    //   // Request made to the backend api
-    //   // Send formData object
-    //   console.log("formData: ", formData);
-    //   axios.post("http://192.168.0.4:3001/vehicles/image", formData);
-    // }
-
+  const editar = () => {
+    imageUpload();
     dispatch(putVehicle(vehicleSeleccionado));
     setModalEditar(false);
   };
@@ -134,6 +108,7 @@ const CrudVehicles = () => {
   };
 
   const insertar = () => {
+    imageUpload();
     dispatch(postVehicle(vehicleSeleccionado));
     setModalInsertar(false);
   };
@@ -170,7 +145,6 @@ const CrudVehicles = () => {
                 <td>{elemento.name}</td>
                 <td>{elemento.description}</td>
                 <td>{elemento.plate}</td>
-                {/* <td>{elemento.image}</td> */}
                 <td width="30%">
                   <img
                     src={elemento.image}
@@ -261,7 +235,6 @@ const CrudVehicles = () => {
               onChange={handleChange}
             />
             <input name="image2" type="file" onChange={handleChange} />
-            {/* <button onClick={this.onFileUpload}>Subir!</button> */}
             <br />
 
             <label>Categoria</label>
@@ -369,9 +342,10 @@ const CrudVehicles = () => {
               className="form-control"
               type="text"
               name="image"
-              value={vehicleSeleccionado ? vehicleSeleccionado.image : ""}
+              value={vehicleSeleccionado && vehicleSeleccionado.image}
               onChange={handleChange}
             />
+            <input name="image2" type="file" onChange={handleChange} />
             <br />
 
             <label>Categoria</label>

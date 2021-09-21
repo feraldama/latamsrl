@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://192.168.0.4:3001";
+const url = "http://192.168.0.27:3001";
 
 export const getRfid = () => (dispatch) => {
   axios.get(`${url}/rfids`).then((data) => {
@@ -23,6 +23,7 @@ export const postRfid = (vehicleSeleccionado) => (dispatch) => {
       type: vehicleSeleccionado.type,
       location: vehicleSeleccionado.location,
       recapNumber: vehicleSeleccionado.recapNumber,
+      image: vehicleSeleccionado.image,
       vehicleId: vehicleSeleccionado.vehicleId,
       active: vehicleSeleccionado.active,
     })
@@ -47,6 +48,7 @@ export const putRfid = (vehicleSeleccionado) => (dispatch) => {
       type: vehicleSeleccionado.type,
       location: vehicleSeleccionado.location,
       recapNumber: vehicleSeleccionado.recapNumber,
+      image: vehicleSeleccionado.image,
       vehicleId: vehicleSeleccionado.vehicleId,
       active: vehicleSeleccionado.active,
     })

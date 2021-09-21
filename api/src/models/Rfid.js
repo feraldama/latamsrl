@@ -43,6 +43,9 @@ module.exports = (sequelize) => {
       // allowNull: false,
       defaultValue: "0",
     },
+    image: {
+      type: DataTypes.STRING,
+    },
     active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,

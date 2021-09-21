@@ -153,7 +153,7 @@ server.post("/image", (req, res) => {
     var fileName = req.files.myFile.name;
     // console.log("fileName: ", fileName);
 
-    file.mv("C:/Programas/Vehiculos/" + fileName, function (err) {
+    file.mv("C:/Programas/Imagenes/Vehiculos/" + fileName, function (err) {
       if (err) {
         console.log(err);
       } else {
