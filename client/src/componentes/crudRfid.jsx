@@ -75,14 +75,14 @@ const CrudRfid = () => {
 
   const imageUpload = () => {
     if (imageRfid) {
-      if (imageRfid.type === "image/jpeg") {
+      if (imageRfid.type === "image/jpeg" || imageRfid.type === "image/png") {
         const formData = new FormData();
         formData.append("myFile", imageRfid, imageRfid.name);
-        axios.post("http://192.168.0.27:3001/rfids/image", formData);
+        axios.post("http://181.127.189.247:3001/rfids/image", formData);
       } else {
         Swal.fire(
           "Alerta!",
-          "Debe seleccionar un archivo IMAGEN (*.jpg)!",
+          "Debe seleccionar un archivo IMAGEN! (*.jpg / *.png)",
           "error"
         );
       }
@@ -93,7 +93,7 @@ const CrudRfid = () => {
     if (imageRfid) {
       setRfidSeleccionado((prevState) => ({
         ...prevState,
-        ["image"]: `http://192.168.0.27:8081/Rfids/${imageRfid.name}`,
+        ["image"]: `http://181.127.189.247:8081/Rfids/${imageRfid.name}`,
       }));
     }
   }, [imageRfid]);

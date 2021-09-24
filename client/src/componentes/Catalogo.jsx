@@ -6,7 +6,7 @@ import VehicleCard from "./VehicleCard.jsx";
 const Catalogo = () => {
   useEffect(() => {
     axios
-      .get("http://192.168.0.27:3001/vehicles/actives")
+      .get("http://181.127.189.247:3001/vehicles/actives")
       .then((data) => setData(data.data));
   }, []);
   const [data, setData] = useState([]);
