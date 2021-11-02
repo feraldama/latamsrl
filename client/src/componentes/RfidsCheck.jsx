@@ -2,16 +2,29 @@ import axios from "axios";
 import React, { Component } from "react";
 import Swal from "sweetalert2";
 
-class RfidsAdd extends Component {
+class RfidsAssign extends Component {
   state = {
     // Initially, no file is selected
     selectedFile: null,
+    plate: [],
+    chapa: "",
   };
 
   // On file select (from the pop up)
   onFileChange = (event) => {
+    axios.get(`http://192.168.0.26:3001/vehicles`).then((data) => {
+      // console.log("DATA EN Assign: ", data.data);
+      this.setState({ plate: data.data });
+      // console.log("PLATE: ", this.state.plate);
+    });
+
     // Update the state
     this.setState({ selectedFile: event.target.files[0] });
+  };
+
+  handleChange = (e) => {
+    // console.log("e: ", e.target.value);
+    this.setState({ chapa: e.target.value });
   };
 
   // On file upload (click the upload button)
@@ -22,11 +35,8 @@ class RfidsAdd extends Component {
         const formData = new FormData();
 
         // Update the formData object
-        formData.append(
-          "myFile",
-          this.state.selectedFile,
-          this.state.selectedFile.name
-        );
+        // console.log("SelectedFile: ", this.state.selectedFile);
+        formData.append("myFile", this.state.selectedFile, this.state.chapa);
 
         // Details of the uploaded file
         // console.log(this.state.selectedFile);
@@ -34,11 +44,20 @@ class RfidsAdd extends Component {
         // Request made to the backend api
         // Send formData object
         // console.log("formData: ", formData);
-        axios.post("http://192.168.0.26:3001/rfids/xls", formData);
-        await Swal.fire("Realizado!", "Rfids Insertados con Éxito!", "success");
+        axios.post("http://192.168.0.26:3001/rfids/checkxls", formData);
+
+        await Swal.fire(
+          "Realizado!",
+          "Archivo levantado con Éxito!",
+          "success"
+        );
         window.location.reload(true);
       } else {
-        Swal.fire("Alerta!", "Debe seleccionar un archivo XLS!", "error");
+        Swal.fire(
+          "Alerta!",
+          "Debe seleccionar un archivo XLS y una Patente!",
+          "error"
+        );
       }
     }
   };
@@ -47,8 +66,24 @@ class RfidsAdd extends Component {
   // file upload is complete
   fileData = () => {
     if (this.state.selectedFile) {
+      // console.log("plate: ", this.state);
       return (
         <div>
+          <br />
+          <label>Vehiculo Patente</label>
+          <select
+            name="vehicleId"
+            onChange={this.handleChange}
+            value={this.state.plate && this.state.plate.vehicleId}
+          >
+            <option>Selecciona una patente...</option>
+            {this.state.plate.map((cat) => (
+              <option type="checkbox" name="vehicleId" value={cat.id}>
+                {cat.plate}
+              </option>
+            ))}
+          </select>
+          <br />
           <h2>Detalles de Archivo:</h2>
           <p>Nombre: {this.state.selectedFile.name}</p>
           <p>Tipo: {this.state.selectedFile.type}</p>
@@ -72,7 +107,7 @@ class RfidsAdd extends Component {
   render() {
     return (
       <div>
-        <h1>Insertar VARIOS</h1>
+        <h1>Verificar Ruedas</h1>
         <br />
         <h3>Subida de archivo!</h3>
         <div>
@@ -84,4 +119,4 @@ class RfidsAdd extends Component {
   }
 }
 
-export default RfidsAdd;
+export default RfidsAssign;

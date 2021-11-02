@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./Vehicle.css";
 import { Table } from "react-bootstrap";
 
 const Vehicle = () => {
   let { id } = useParams();
-  var url = "http://181.127.189.247:3001";
+  var url = "http://192.168.0.26:3001";
   useEffect(() => {
     axios.get(`${url}/vehicles/${id}`).then((data) => setData(data.data));
   }, []);
@@ -26,6 +27,9 @@ const Vehicle = () => {
           <h1>{data.name}</h1>
           <h2>Patente: {data.plate}</h2>
           <h3>{data.description}.</h3>
+          <Link to="/admin/rfids/checkxls">
+            <button className="btn btn-success">Verificar Ruedas</button>
+          </Link>
         </div>
       </div>
       <div className="table-responsive-xl">

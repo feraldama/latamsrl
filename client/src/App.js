@@ -12,6 +12,7 @@ import NavAdmin from "./componentes/NavAdmin.jsx";
 import Categories from "./componentes/crudCategory";
 import RfidsAdd from "./componentes/RfidsAdd.jsx";
 import RfidsAssing from "./componentes/RfidsAssign.jsx";
+import RfidsCheck from "./componentes/RfidsCheck";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -33,6 +34,7 @@ function App() {
       <Route exact path="/admin/rfids" component={Rfids} />
       <Route exact path="/admin/rfids/xls" component={RfidsAdd} />
       <Route exact path="/admin/rfids/assignxls" component={RfidsAssing} />
+      <Route exact path="/admin/rfids/checkxls" component={RfidsCheck} />
     </div>
   );
 }

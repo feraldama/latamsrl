@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
     // },
     image: {
       type: DataTypes.STRING,
-      defaultValue: "http://181.127.189.247:8081/Vehiculos/camionDefecto.png",
+      defaultValue: "http://192.168.0.26:8081/Vehiculos/camionDefecto.png",
     },
     active: {
       type: DataTypes.BOOLEAN,

@@ -78,7 +78,7 @@ const CrudRfid = () => {
       if (imageRfid.type === "image/jpeg" || imageRfid.type === "image/png") {
         const formData = new FormData();
         formData.append("myFile", imageRfid, imageRfid.name);
-        axios.post("http://181.127.189.247:3001/rfids/image", formData);
+        axios.post("http://192.168.0.26:3001/rfids/image", formData);
       } else {
         Swal.fire(
           "Alerta!",
@@ -93,7 +93,7 @@ const CrudRfid = () => {
     if (imageRfid) {
       setRfidSeleccionado((prevState) => ({
         ...prevState,
-        ["image"]: `http://181.127.189.247:8081/Rfids/${imageRfid.name}`,
+        ["image"]: `http://192.168.0.26:8081/Rfids/${imageRfid.name}`,
       }));
     }
   }, [imageRfid]);

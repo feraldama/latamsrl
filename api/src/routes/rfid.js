@@ -210,6 +210,106 @@ server.post("/assignxls", (req, res, next) => {
   res.status(201).send("Correcto");
 });
 
+// Verificar VARIOS rfid
+server.post("/checkxls", (req, res, next) => {
+  console.log("req VERIFICAR: ", req.files.myFile);
+  if (req.files) {
+    var id = req.files.myFile.name;
+    console.log("iiiiiDDDDDD: ", id);
+    console.log("req.files: ", req.files);
+    var file = req.files.myFile;
+    var fileName = "checkrfids.xls";
+    console.log("fileName: ", fileName);
+    file.mv("C:/Programas/" + fileName, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("File Uploaded");
+        // var workbook = XLSX.readFile("C:/Programas/" + fileName);
+        // var sheet_name_list = workbook.SheetNames;
+        // sheet_name_list.forEach(function (y) {
+        //   var worksheet = workbook.Sheets[y];
+        //   //getting the complete sheet
+        //   // console.log(worksheet);
+        //   var headers = {};
+        //   var data = [];
+        //   for (z in worksheet) {
+        //     if (z[0] === "!") continue;
+        //     //parse out the column, row, and value
+        //     var col = z.substring(0, 1);
+        //     // console.log(col);
+        //     var row = parseInt(z.substring(1));
+        //     // console.log(row);
+        //     var value = worksheet[z].v;
+        //     // console.log(value);
+        //     //store header names
+        //     if (row == 1) {
+        //       headers[col] = value;
+        //       // storing the header names
+        //       continue;
+        //     }
+        //     if (!data[row]) data[row] = {};
+        //     data[row][headers[col]] = value;
+        //   }
+        //   //drop those first two rows which are empty
+        //   data.shift();
+        //   data.shift();
+        //   // console.log("data ANTES DE MAP: ", data);
+        //   const val = [];
+        //   data.map((dat) => {
+        //     // Rfid.create({
+        //     //   rfidNumber: dat.EPC,
+        //     // });
+        //     // console.log("dat.EPC: ", dat.EPC);
+        //     // Rfid.find({ id: "dat.EPC" }, { include: [Vehicle] }) // Busco el vehiculo por clave primaria (id)
+        //     Rfid.findOne({ where: { rfidNumber: dat.EPC } })
+        //       .then((currentRfidData) => {
+        //         // console.log("currentVehicleData: ", currentRfidData);
+        //         if (!currentRfidData) {
+        //           // console.log("NO HAYYYYYYY");
+        //           return res.status(400).send("El registro no existe");
+        //         }
+        //         currentRfidData
+        //           .setVehicle(id)
+        //           .catch((err) => console.error(err));
+        //         Rfid.update(
+        //           {
+        //             // rfidNumber,
+        //             // brand,
+        //             // invoiceNumber,
+        //             // invoiceDate,
+        //             // company,
+        //             // measure,
+        //             // type,
+        //             // location,
+        //             // recapNumber,
+        //             vehicleId: id,
+        //             // active,
+        //           },
+        //           { where: { rfidNumber: dat.EPC } }
+        //         )
+        //           .then(
+        //             () =>
+        //               (prod = Rfid.findOne(
+        //                 { where: { rfidNumber: dat.EPC } },
+        //                 {
+        //                   include: [Vehicle],
+        //                 }
+        //               ))
+        //           )
+        //           // .then((vehi) => console.log("vehi: ", vehi))
+        //           .catch((err) => console.log("err: ", err));
+        //       })
+        //       .catch(next);
+        //   });
+        //   // res.status(201).send("Correcto");
+        // });
+      }
+    });
+  }
+  res.status(201).send("Correcto");
+});
+
 // Crear/Agregar UN rfid
 server.post("/", (req, res, next) => {
   const {

@@ -8,7 +8,7 @@ const SearchedVehicles = () => {
   let { id } = useParams();
   useEffect(() => {
     axios
-      .get(`http://181.127.189.247:3001/vehicles/search/${id}`)
+      .get(`http://192.168.0.26:3001/vehicles/search/${id}`)
       .then((data) => setData(data.data));
   }, []);
   const [data, setData] = useState([]);

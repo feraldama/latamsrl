@@ -7,7 +7,7 @@ const FilterCategories = () => {
   var route;
   useEffect(() => {
     axios
-      .get("http://181.127.189.247:3001/categories")
+      .get("http://192.168.0.26:3001/categories")
       .then((categoria) => setCategoria(categoria.data));
   }, []);
   const [categoria, setCategoria] = useState([]);
