@@ -32,8 +32,12 @@ const CrudRfid = () => {
 
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
+  const [modalImage, setModalImage] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [imageRfid, setImageRfid] = useState(null);
+  const [imageInvoice, setImageInvoice] = useState(null);
+  const [imageModal, setImageModal] = useState("");
+  const [modalInvoice, setModalInvoice] = useState(false);
 
   const [rfidSeleccionado, setRfidSeleccionado] = useState({
     id: "",
@@ -47,6 +51,7 @@ const CrudRfid = () => {
     location: "",
     recapNumber: 0,
     image: "",
+    invoiceImage: "",
     vehicleId: "",
     active: false,
   });
@@ -60,7 +65,13 @@ const CrudRfid = () => {
 
   const handleChange = (e) => {
     var { name, value } = e.target;
+    // console.log("e: ", e.target);
+    if (name == "invoiceImage2") {
+      // console.log("Entra invoice2: ", e.target.files);
+      setImageInvoice(e.target.files[0]);
+    }
     if (name == "image2") {
+      // console.log("Entra image2: ", e.target);
       setImageRfid(e.target.files[0]);
     }
     if (name === "active" && value === "true") {
@@ -72,6 +83,7 @@ const CrudRfid = () => {
       ...prevState,
       [name]: value,
     }));
+    // console.log("rfidSeleccionado: ", rfidSeleccionado);
   };
 
   const imageUpload = () => {
@@ -82,8 +94,22 @@ const CrudRfid = () => {
         axios.post("http://192.168.0.26:3001/rfids/image", formData);
       } else {
         Swal.fire(
-          "Alerta!",
+          "Alerta Imagen Rueda!",
           "Debe seleccionar un archivo IMAGEN! (*.jpg / *.png)",
+          "error"
+        );
+      }
+    }
+    if (imageInvoice) {
+      // console.log(imageInvoice);
+      if (imageInvoice.type === "image/jpeg") {
+        const formData = new FormData();
+        formData.append("myFile", imageInvoice, imageInvoice.name);
+        axios.post("http://192.168.0.26:3001/rfids/invoice", formData);
+      } else {
+        Swal.fire(
+          "Alerta Imagen Factura!",
+          "Debe seleccionar un archivo IMAGEN! (*.jpg)",
           "error"
         );
       }
@@ -92,12 +118,23 @@ const CrudRfid = () => {
 
   useEffect(() => {
     if (imageRfid) {
+      // console.log("imageRfid: ", imageRfid);
       setRfidSeleccionado((prevState) => ({
         ...prevState,
         ["image"]: `http://192.168.0.26:8081/Rfids/${imageRfid.name}`,
       }));
     }
   }, [imageRfid]);
+
+  useEffect(() => {
+    if (imageInvoice) {
+      // console.log("imageInvoice: ", imageInvoice);
+      setRfidSeleccionado((prevState) => ({
+        ...prevState,
+        ["invoiceImage"]: `http://192.168.0.26:8081/Facturas/${imageInvoice.name}`,
+      }));
+    }
+  }, [imageInvoice]);
 
   const editar = () => {
     imageUpload();
@@ -113,6 +150,17 @@ const CrudRfid = () => {
   const abrirModalInsertar = () => {
     setRfidSeleccionado(null);
     setModalInsertar(true);
+  };
+
+  const abrirModalImage = (image) => {
+    setImageModal(image);
+    setModalImage(true);
+  };
+
+  const abrirModalInvoice = (invoice) => {
+    // console.log(invoice);
+    setImageRfid(invoice);
+    setModalInvoice(true);
   };
 
   const insertar = () => {
@@ -169,7 +217,14 @@ const CrudRfid = () => {
                 <td>{elemento.id}</td>
                 <td>{elemento.rfidNumber}</td>
                 <td>{elemento.brand}</td>
-                <td>{elemento.invoiceNumber}</td>
+                <td>
+                  <span
+                    className="imageRueda"
+                    onClick={() => abrirModalInvoice(elemento.invoiceImage)}
+                  >
+                    {elemento.invoiceNumber}
+                  </span>
+                </td>
                 <td>{elemento.invoiceDate}</td>
                 <td>{elemento.company}</td>
                 <td>{elemento.measure}</td>
@@ -178,10 +233,12 @@ const CrudRfid = () => {
                 <td>{elemento.recapNumber}</td>
                 <td width="20%">
                   <img
+                    className="imageRueda"
                     src={elemento.image}
                     alt="Aqui va la imagen"
                     width="40%"
                     height="auto"
+                    onClick={() => abrirModalImage(elemento.image)}
                   />
                 </td>
                 <td>
@@ -255,6 +312,17 @@ const CrudRfid = () => {
               value={rfidSeleccionado && rfidSeleccionado.invoiceNumber}
               onChange={handleChange}
             />
+            <br />
+
+            <label>Factura Imagen</label>
+            <input
+              className="form-control"
+              type="text"
+              name="invoiceImage"
+              value={rfidSeleccionado && rfidSeleccionado.invoiceImage}
+              onChange={handleChange}
+            />
+            <input name="invoiceImage2" type="file" onChange={handleChange} />
             <br />
 
             <label>Factura Fecha</label>
@@ -453,6 +521,17 @@ const CrudRfid = () => {
             />
             <br />
 
+            <label>Factura Imagen</label>
+            <input
+              className="form-control"
+              type="text"
+              name="invoiceImage"
+              value={rfidSeleccionado && rfidSeleccionado.invoiceImage}
+              onChange={handleChange}
+            />
+            <input name="invoiceImage2" type="file" onChange={handleChange} />
+            <br />
+
             <label>Factura Fecha</label>
             <input
               className="form-control"
@@ -576,6 +655,58 @@ const CrudRfid = () => {
             onClick={() => setModalInsertar(false)}
           >
             Cancelar
+          </button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modalImage}>
+        <ModalHeader>
+          <div>
+            <h3>Imagen</h3>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          <div>
+            <img
+              src={imageModal}
+              alt="Aqui va la imagen"
+              width="100%"
+              height="100%"
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            className="btn btn-danger"
+            onClick={() => setModalImage(false)}
+          >
+            Cerrar
+          </button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modalInvoice}>
+        <ModalHeader>
+          <div>
+            <h3>Factura</h3>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          <div>
+            <img
+              src={imageRfid}
+              alt="Aqui va la imagen"
+              width="100%"
+              height="100%"
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            className="btn btn-danger"
+            onClick={() => setModalInvoice(false)}
+          >
+            Cerrar
           </button>
         </ModalFooter>
       </Modal>

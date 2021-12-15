@@ -33,6 +33,7 @@ const ReducerRfid = (state = initialState, actions) => {
           p.location = actions.payload.location;
           p.recapNumber = actions.payload.recapNumber;
           p.image = actions.payload.image;
+          p.invoiceImage = actions.payload.invoiceImage;
           p.vehicleId = actions.payload.vehicleId;
           p.active = actions.payload.active;
         }

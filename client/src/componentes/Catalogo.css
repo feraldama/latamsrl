@@ -22,3 +22,11 @@
     flex-direction: column;
   }
 }
+
+.imageRueda {
+  cursor: pointer;
+}
+
+.imageRueda:hover {
+  color: blue;
+}

@@ -12,6 +12,7 @@ export const getRfid = () => (dispatch) => {
 };
 
 export const postRfid = (vehicleSeleccionado) => (dispatch) => {
+  // console.log("ACTIONS vehicleSeleccionado: ", vehicleSeleccionado);
   axios
     .post(`${url}/rfids`, {
       rfidNumber: vehicleSeleccionado.rfidNumber,
@@ -24,6 +25,7 @@ export const postRfid = (vehicleSeleccionado) => (dispatch) => {
       location: vehicleSeleccionado.location,
       recapNumber: vehicleSeleccionado.recapNumber,
       image: vehicleSeleccionado.image,
+      invoiceImage: vehicleSeleccionado.invoiceImage,
       vehicleId: vehicleSeleccionado.vehicleId,
       active: vehicleSeleccionado.active,
     })
@@ -49,6 +51,7 @@ export const putRfid = (vehicleSeleccionado) => (dispatch) => {
       location: vehicleSeleccionado.location,
       recapNumber: vehicleSeleccionado.recapNumber,
       image: vehicleSeleccionado.image,
+      invoiceImage: vehicleSeleccionado.invoiceImage,
       vehicleId: vehicleSeleccionado.vehicleId,
       active: vehicleSeleccionado.active,
     })

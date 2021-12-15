@@ -64,6 +64,7 @@ server.put("/:id", (req, res, next) => {
         location = currentRfidData.location,
         recapNumber = currentRfidData.recapNumber,
         image = currentRfidData.image,
+        invoiceImage = currentRfidData.invoiceImage,
         vehicleId = currentRfidData.vehicleId,
         active = currentRfidData.active,
       } = req.body;
@@ -89,6 +90,7 @@ server.put("/:id", (req, res, next) => {
           location,
           recapNumber,
           image,
+          invoiceImage,
           vehicleId,
           active,
         },
@@ -290,23 +292,19 @@ server.post("/checkxls", async (req, res, next) => {
               // console.log("soy faltantes1")
               if (!faltantes[0]) {
                 // console.log({exito: true,message:"Se encontraron todas las ruedas registradas en la base de datos"})
-                return res
-                  .status(200)
-                  .json({
-                    exito: true,
-                    message:
-                      "Se encontraron todas las ruedas registradas en la base de datos",
-                  });
+                return res.status(200).json({
+                  exito: true,
+                  message:
+                    "Se encontraron todas las ruedas registradas en la base de datos",
+                });
               } else {
                 // console.log({exito: false,message:"Este vehiculo tiene ruedas asignadas que no se escanearon", listaRuedas: faltantes})
-                return res
-                  .status(200)
-                  .json({
-                    exito: false,
-                    message:
-                      "Este vehiculo tiene ruedas asignadas que no se escanearon",
-                    listaRuedas: faltantes,
-                  });
+                return res.status(200).json({
+                  exito: false,
+                  message:
+                    "Este vehiculo tiene ruedas asignadas que no se escanearon",
+                  listaRuedas: faltantes,
+                });
               }
             })
             .catch((e) => {
@@ -369,6 +367,7 @@ server.post("/", (req, res, next) => {
     location,
     recapNumber,
     image,
+    invoiceImage,
     vehicleId,
   } = req.body;
   Rfid.create({
@@ -382,6 +381,7 @@ server.post("/", (req, res, next) => {
     location,
     recapNumber,
     image,
+    invoiceImage,
   })
     .then((rfid) => {
       rfid.setVehicle(vehicleId).then((newData) => {
@@ -479,6 +479,26 @@ server.post("/image", (req, res) => {
     var fileName = req.files.myFile.name;
     // console.log("fileName: ", fileName);
     file.mv("C:/Programas/Imagenes/Rfids/" + fileName, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200);
+      }
+    });
+  }
+  res.status(200);
+});
+
+// Agregar Invoice IMAGEN
+server.post("/invoice", (req, res) => {
+  // console.log("entra Vehicles: ", req.files);
+  if (req.files) {
+    // console.log("req.files.mimetype: ", req.files.myFile.mimetype);
+    // console.log("req.files.myFile: ", req.files.myFile);
+    var file = req.files.myFile;
+    var fileName = req.files.myFile.name;
+    // console.log("fileName: ", fileName);
+    file.mv("C:/Programas/Imagenes/Facturas/" + fileName, function (err) {
       if (err) {
         console.log(err);
       } else {

@@ -31,8 +31,10 @@ const CrudVehicles = () => {
   //const [categoria, setCategoria] = useState([]);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
+  const [modalImage, setModalImage] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [imageVehicle, setImageVehicle] = useState(null);
+  const [imageModal, setImageModal] = useState("");
 
   const [vehicleSeleccionado, setVehicleSeleccionado] = useState({
     id: "",
@@ -110,6 +112,11 @@ const CrudVehicles = () => {
     setModalInsertar(true);
   };
 
+  const abrirModalImage = (image) => {
+    setImageModal(image);
+    setModalImage(true);
+  };
+
   const insertar = () => {
     imageUpload();
     dispatch(postVehicle(vehicleSeleccionado));
@@ -149,10 +156,12 @@ const CrudVehicles = () => {
                 <td>{elemento.plate}</td>
                 <td width="30%">
                   <img
+                    className="imageRueda"
                     src={elemento.image}
                     alt="Aqui va la imagen"
                     width="40%"
                     height="auto"
+                    onClick={() => abrirModalImage(elemento.image)}
                   />
                 </td>
                 <td>
@@ -376,6 +385,32 @@ const CrudVehicles = () => {
             onClick={() => setModalInsertar(false)}
           >
             Cancelar
+          </button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modalImage}>
+        <ModalHeader>
+          <div>
+            <h3>Imagen</h3>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          <div>
+            <img
+              src={imageModal}
+              alt="Aqui va la imagen"
+              width="100%"
+              height="100%"
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            className="btn btn-danger"
+            onClick={() => setModalImage(false)}
+          >
+            Cerrar
           </button>
         </ModalFooter>
       </Modal>
