@@ -22,7 +22,7 @@
 }
 
 .titulo {
-  color: #4dc591;
+  color: #1f8a5c;
 }
 
 .nav-container {
@@ -32,7 +32,7 @@
   background-color: white;
   padding: 20px;
   box-shadow: 5px 5px 15px rgb(0 0 0 / 25%);
-  border-bottom: 5px solid #4dc591;
+  border-bottom: 5px solid #1f8a5c;
   align-items: center;
   /* margin-bottom: 10px; */
 }
@@ -47,14 +47,14 @@
 }
 
 .button-search {
-  border: 2px solid #4dc591;
+  border: 2px solid #1f8a5c;
   background-color: white;
-  color: #4dc591;
+  color: #1f8a5c;
   width: 120px;
 }
 
 .button-search:hover {
-  background-color: #4dc591;
+  background-color: #1f8a5c;
   color: white;
 }
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Swal from "sweetalert2";
+import { Table } from "react-bootstrap";
 
 class RfidsAssign extends Component {
   state = {
@@ -8,6 +9,9 @@ class RfidsAssign extends Component {
     selectedFile: null,
     plate: [],
     chapa: "",
+    chapaList: "",
+    message: "",
+    tabla: {},
   };
 
   // On file select (from the pop up)
@@ -34,24 +38,30 @@ class RfidsAssign extends Component {
         // Create an object of formData
         const formData = new FormData();
 
-        // Update the formData object
-        // console.log("SelectedFile: ", this.state.selectedFile);
         formData.append("myFile", this.state.selectedFile, this.state.chapa);
 
-        // Details of the uploaded file
-        // console.log(this.state.selectedFile);
-
-        // Request made to the backend api
-        // Send formData object
-        // console.log("formData: ", formData);
-        axios.post("http://192.168.0.26:3001/rfids/checkxls", formData);
-
-        await Swal.fire(
-          "Realizado!",
-          "Archivo levantado con Éxito!",
-          "success"
-        );
-        window.location.reload(true);
+        // let id = this.state.chapa;
+        // var url = "http://192.168.0.26:3001";
+        // this.state.tabla = await axios.get(`${url}/vehicles/${id}`).then(
+        //   (data) => console.log("data: ", data) //setData(data.data)
+        // );
+        await axios
+          .post("http://192.168.0.26:3001/rfids/checkxls", formData)
+          .then((data) => (this.state.message = data.data));
+        // .then(() => console.log(this.state.message));
+        if (this.state.message.exito == false) {
+          await Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: this.state.message.message,
+            // footer: '<a href="">Why do I have this issue?</a>',
+          });
+        } else {
+          await Swal.fire("Realizado!", this.state.message.message, "success");
+          window.location.reload(true);
+        }
+        this.setState({ chapaList: this.state.chapa });
+        // console.log(document.getElementById("vehicleId"));
       } else {
         Swal.fire(
           "Alerta!",
@@ -72,6 +82,7 @@ class RfidsAssign extends Component {
           <br />
           <label>Vehiculo Patente</label>
           <select
+            id="vehicleId"
             name="vehicleId"
             onChange={this.handleChange}
             value={this.state.plate && this.state.plate.vehicleId}
@@ -103,6 +114,74 @@ class RfidsAssign extends Component {
       );
     }
   };
+  fileRfids = () => {
+    // console.log("this.state.message: ", this.state.message);
+    if (this.state.message.message) {
+      // console.log("plate: ", this.state);
+      return (
+        <div className="table-responsive-xl">
+          <Table striped bordered hover size="xl">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>RFID</th>
+                <th>Marca</th>
+                <th>Factura Nro.</th>
+                <th>Factura Fecha</th>
+                <th>Compañia</th>
+                <th>Medida</th>
+                <th>Tipo</th>
+                <th>Ubicación</th>
+                <th>Nro. Recapado</th>
+                <th>Imagen</th>
+                <th>Vehiculo Patente</th>
+                <th>Activo</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.message.listaRuedas.map((elemento) => (
+                <tr>
+                  <td>{elemento.id}</td>
+                  <td>{elemento.rfidNumber}</td>
+                  <td>{elemento.brand}</td>
+                  <td>{elemento.invoiceNumber}</td>
+                  <td>{elemento.invoiceDate}</td>
+                  <td>{elemento.company}</td>
+                  <td>{elemento.measure}</td>
+                  <td>{elemento.type}</td>
+                  <td>{elemento.location}</td>
+                  <td>{elemento.recapNumber}</td>
+                  <td width="20%">
+                    <img
+                      src={elemento.image}
+                      alt="Aqui va la imagen"
+                      width="40%"
+                      height="auto"
+                    />
+                  </td>
+                  <td>
+                    <span>
+                      {this.state.plate
+                        ? this.state.plate[this.state.chapaList - 1].plate
+                        : ""}
+                    </span>
+                  </td>
+                  <td>{elemento.active ? "Activo" : "Inactivo"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          {/* <br />
+          <h4>Resultado</h4> */}
+        </div>
+      );
+    }
+  };
 
   render() {
     return (
@@ -114,6 +193,7 @@ class RfidsAssign extends Component {
           <input type="file" onChange={this.onFileChange} />
         </div>
         {this.fileData()}
+        {this.fileRfids()}
       </div>
     );
   }

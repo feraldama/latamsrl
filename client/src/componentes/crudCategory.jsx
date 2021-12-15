@@ -6,6 +6,7 @@ import {
   putCategory,
 } from "../redux/actions/actionsCategory";
 import { useSelector, useDispatch } from "react-redux";
+import { Table } from "react-bootstrap";
 
 const CrudCategory = () => {
   const [modalEditar, setModalEditar] = useState(false);
@@ -66,15 +67,15 @@ const CrudCategory = () => {
   return (
     <div className="App">
       <br />
-      <br />
+      {/* <br /> */}
       <h2>Lista de Categorías</h2>
-      <br />
-      <button className="btn btn-success" onClick={() => abrirModalInsertar()}>
-        Insertar
-      </button>
-      <br />
-      <br />
-      <table className="table table-striped">
+      <div className="prueba">
+        {/* <br /> */}
+        <button className="button-cart2" onClick={() => abrirModalInsertar()}>
+          Insertar
+        </button>
+      </div>
+      <Table striped bordered hover size="xl">
         <thead>
           <tr>
             <th>Id</th>
@@ -106,7 +107,7 @@ const CrudCategory = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
 
       <Modal isOpen={modalEditar}>
         <ModalHeader>

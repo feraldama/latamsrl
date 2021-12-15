@@ -119,14 +119,13 @@ const CrudVehicles = () => {
   return (
     <div className="App">
       <br />
-      <br />
+      {/* <br /> */}
       <h2>Lista de Vehiculos</h2>
-      <br />
-      <button className="btn btn-success" onClick={() => abrirModalInsertar()}>
-        Insertar
-      </button>
-      <br />
-      <br />
+      <div className="prueba">
+        <button className="button-cart2" onClick={() => abrirModalInsertar()}>
+          Insertar
+        </button>
+      </div>
 
       <div className="table-responsive-xl">
         <Table striped bordered hover size="sm">

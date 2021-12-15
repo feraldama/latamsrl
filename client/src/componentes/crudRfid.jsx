@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getVehicle } from "../redux/actions/actionsVehicle";
+import "./Catalogo.css";
 
 const CrudRfid = () => {
   const dispatch = useDispatch();
@@ -123,28 +124,24 @@ const CrudRfid = () => {
   return (
     <div className="App">
       <br />
-      <br />
       <h2>Lista de RFIDs</h2>
       <div className="prueba">
-        <button
-          className="btn btn-success"
-          onClick={() => abrirModalInsertar()}
-        >
+        <button className="button-cart2" onClick={() => abrirModalInsertar()}>
           Insertar UNO
         </button>
-        <br />
-        <br />
+        {/* <br />
+        <br /> */}
         <Link to="/admin/rfids/xls">
-          <button className="btn btn-success">Insertar VARIOS</button>
+          <button className="button-cart2">Insertar VARIOS</button>
         </Link>
-        <br />
-        <br />
+        {/* <br />
+        <br /> */}
         <Link to="/admin/rfids/assignxls">
-          <button className="btn btn-success">Asignar VARIOS</button>
+          <button className="button-cart2">Asignar VARIOS</button>
         </Link>
 
-        <br />
-        <br />
+        {/* <br />
+        <br /> */}
       </div>
 
       <div className="table-responsive-xl">

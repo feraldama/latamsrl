@@ -211,10 +211,10 @@ server.post("/assignxls", (req, res, next) => {
 });
 
 // Verificar VARIOS rfid
-server.post("/checkxls", async(req, res, next) => {
-  var baseDatos=[]
-  var subidos=[]
-  var faltantes = []
+server.post("/checkxls", async (req, res, next) => {
+  var baseDatos = [];
+  var subidos = [];
+  var faltantes = [];
 
   if (req.files) {
     var id = req.files.myFile.name;
@@ -225,7 +225,6 @@ server.post("/checkxls", async(req, res, next) => {
       if (err) {
         // console.log(err);
         return res.status(201).send("Error");
-
       } else {
         var workbook = XLSX.readFile("C:/Programas/" + fileName);
         var sheet_name_list = workbook.SheetNames;
@@ -259,51 +258,61 @@ server.post("/checkxls", async(req, res, next) => {
           // console.log("data ANTES DE MAP: ", data);
           // console.log("Rfids archivo subido");
           data.map((dat) => {
-            subidos.push({"Rfid": dat.EPC});
+            subidos.push({ Rfid: dat.EPC });
           });
 
           Vehicle.findByPk(id, { include: [Rfid] })
-          .then((data) =>{
-            console.log("Rfids base de datos")
-            data.rfids.map((e)=>{
-              // console.log(e.dataValues.rfidNumber)
-              if(e.dataValues.active){
-                baseDatos.push(e.dataValues)
-              }
-            })
-          })
-          .finally((data)=>{
-            var aux
-            baseDatos.map((e)=>{
-              aux = false
-              subidos.map((u)=>{
-                if(e.rfidNumber == u.Rfid){
-                  console.log("soy true")
-                  aux=true
+            .then((data) => {
+              // console.log("Rfids base de datos")
+              data.rfids.map((e) => {
+                // console.log(e.dataValues.rfidNumber)
+                if (e.dataValues.active) {
+                  baseDatos.push(e.dataValues);
                 }
-              })
-              if(!aux){
-                faltantes.push(e)
+              });
+            })
+            .finally((data) => {
+              var aux;
+              baseDatos.map((e) => {
+                aux = false;
+                subidos.map((u) => {
+                  if (e.rfidNumber == u.Rfid) {
+                    // console.log("soy true")
+                    aux = true;
+                  }
+                });
+                if (!aux) {
+                  faltantes.push(e);
+                }
+              });
+              // console.log("soy faltantes")
+              // console.log(faltantes)
+              // console.log("soy faltantes1")
+              if (!faltantes[0]) {
+                // console.log({exito: true,message:"Se encontraron todas las ruedas registradas en la base de datos"})
+                return res
+                  .status(200)
+                  .json({
+                    exito: true,
+                    message:
+                      "Se encontraron todas las ruedas registradas en la base de datos",
+                  });
+              } else {
+                // console.log({exito: false,message:"Este vehiculo tiene ruedas asignadas que no se escanearon", listaRuedas: faltantes})
+                return res
+                  .status(200)
+                  .json({
+                    exito: false,
+                    message:
+                      "Este vehiculo tiene ruedas asignadas que no se escanearon",
+                    listaRuedas: faltantes,
+                  });
               }
             })
-            // console.log("soy faltantes")
-            // console.log(faltantes)
-            // console.log("soy faltantes1")
-            if(!faltantes[0]){
-              console.log({exito: true,message:"Se encontraron todas las ruedas registradas en la base de datos"})
-              return res.status(200).json({exito: true,message:"Se encontraron todas las ruedas registradas en la base de datos"})
-            }else{
-              console.log({exito: false,message:"Este vehiculo tiene ruedas asignadas que no se escanearon", listaRuedas: faltantes})
-              return res.status(200).json({exito: false,message:"Este vehiculo tiene ruedas asignadas que no se escanearon", listaRuedas: faltantes})
-            }
-            
-      
-          })
-          .catch((e)=>{
-            console.log("aa")
-            console.log(e)
-          })
-
+            .catch((e) => {
+              // console.log("aa")
+              console.log(e);
+            });
         });
       }
     });
@@ -318,7 +327,7 @@ server.post("/checkxls", async(req, res, next) => {
     //   })
     // })
     // .finally((data)=>{
-      
+
     //   console.log("soy basedatos")
     //   console.log(baseDatos)
     //   console.log("soy subidos")
@@ -339,12 +348,10 @@ server.post("/checkxls", async(req, res, next) => {
     //   console.log("soy faltantes")
     //   console.log(faltantes)
     //   console.log("soy faltantes1")
-      
 
     // })
-  }else{
+  } else {
     return res.status(201).send("Error");
-
   }
   // res.status(201).send("Correcto");
 });
@@ -493,9 +500,8 @@ server.get("/deleted", (req, res, next) => {
 
 // Obtener los vehiculos pertenecientes a X categoria
 server.get("/vehicle/:id", (req, res, next) => {
-  Vehicle.findByPk(req.params.id, { include: [Rfid] }).then((data) =>{
-    res.status(200).send(data)
-
+  Vehicle.findByPk(req.params.id, { include: [Rfid] }).then((data) => {
+    res.status(200).send(data);
   });
 });
 
