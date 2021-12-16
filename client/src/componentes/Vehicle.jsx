@@ -7,7 +7,7 @@ import { Table } from "react-bootstrap";
 
 const Vehicle = () => {
   let { id } = useParams();
-  var url = "http://192.168.0.26:3001";
+  var url = "http://181.127.189.247:3001";
   useEffect(() => {
     axios.get(`${url}/vehicles/${id}`).then((data) => setData(data.data));
   }, []);

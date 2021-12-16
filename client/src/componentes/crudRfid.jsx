@@ -91,7 +91,7 @@ const CrudRfid = () => {
       if (imageRfid.type === "image/jpeg" || imageRfid.type === "image/png") {
         const formData = new FormData();
         formData.append("myFile", imageRfid, imageRfid.name);
-        axios.post("http://192.168.0.26:3001/rfids/image", formData);
+        axios.post("http://181.127.189.247:3001/rfids/image", formData);
       } else {
         Swal.fire(
           "Alerta Imagen Rueda!",
@@ -105,7 +105,7 @@ const CrudRfid = () => {
       if (imageInvoice.type === "image/jpeg") {
         const formData = new FormData();
         formData.append("myFile", imageInvoice, imageInvoice.name);
-        axios.post("http://192.168.0.26:3001/rfids/invoice", formData);
+        axios.post("http://181.127.189.247:3001/rfids/invoice", formData);
       } else {
         Swal.fire(
           "Alerta Imagen Factura!",
@@ -121,7 +121,7 @@ const CrudRfid = () => {
       // console.log("imageRfid: ", imageRfid);
       setRfidSeleccionado((prevState) => ({
         ...prevState,
-        ["image"]: `http://192.168.0.26:8081/Rfids/${imageRfid.name}`,
+        ["image"]: `http://181.127.189.247:8081/Rfids/${imageRfid.name}`,
       }));
     }
   }, [imageRfid]);
@@ -131,7 +131,7 @@ const CrudRfid = () => {
       // console.log("imageInvoice: ", imageInvoice);
       setRfidSeleccionado((prevState) => ({
         ...prevState,
-        ["invoiceImage"]: `http://192.168.0.26:8081/Facturas/${imageInvoice.name}`,
+        ["invoiceImage"]: `http://181.127.189.247:8081/Facturas/${imageInvoice.name}`,
       }));
     }
   }, [imageInvoice]);

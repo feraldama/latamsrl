@@ -76,7 +76,7 @@ const CrudVehicles = () => {
       ) {
         const formData = new FormData();
         formData.append("myFile", imageVehicle, imageVehicle.name);
-        axios.post("http://192.168.0.26:3001/vehicles/image", formData);
+        axios.post("http://181.127.189.247:3001/vehicles/image", formData);
       } else {
         Swal.fire(
           "Alerta!",
@@ -91,7 +91,7 @@ const CrudVehicles = () => {
     if (imageVehicle) {
       setVehicleSeleccionado((prevState) => ({
         ...prevState,
-        ["image"]: `http://192.168.0.26:8081/Vehiculos/${imageVehicle.name}`,
+        ["image"]: `http://181.127.189.247:8081/Vehiculos/${imageVehicle.name}`,
       }));
     }
   }, [imageVehicle]);
